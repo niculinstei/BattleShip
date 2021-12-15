@@ -31,4 +31,12 @@ public class Point {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+    public char getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

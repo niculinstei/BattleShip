@@ -45,5 +45,4 @@ class PointTest {
         assertNotEquals(point1.hashCode(), point2.hashCode());
 
     }
-
 }
