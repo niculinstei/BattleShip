@@ -2,6 +2,7 @@ package ch.niculin;
 
 import java.util.LinkedList;
 import java.util.List;
+
 public class Playground {
     Controll controll = new Controll();
     private final List<Point> playground;
@@ -64,8 +65,11 @@ public class Playground {
                         Point rightPoint = getRightPoint(point);
                         if (playground.contains(point) && playground.contains(rightPoint) && playground.contains(getRightPoint(rightPoint)) && !hasAlreadyShip(point) && !hasAlreadyShip(rightPoint) && !hasAlreadyShip(getRightPoint(rightPoint))) {
                             mainShip.addShipPositionPoint(point);
+                            point.setFieldStatus(FieldStatus.SHIP);
                             mainShip.addShipPositionPoint(getRightPoint(rightPoint));
+                            getRightPoint(rightPoint).setFieldStatus(FieldStatus.SHIP);
                             mainShip.addShipPositionPoint(rightPoint);
+                            rightPoint.setFieldStatus(FieldStatus.SHIP);
                             mainShips.add(mainShip);
                         } else if (hasAlreadyShip(point) || hasAlreadyShip(getRightPoint(point)) || hasAlreadyShip(getRightPoint(rightPoint))) {
                             throw new IllegalArgumentException("There is already a ship!");
@@ -77,8 +81,11 @@ public class Playground {
                         Point lowerPoint = getLowerPoint(point);
                         if (playground.contains(point) && playground.contains(lowerPoint) && playground.contains(getLowerPoint(lowerPoint)) && !hasAlreadyShip(point) && !hasAlreadyShip(getLowerPoint(point)) && !hasAlreadyShip(getLowerPoint(lowerPoint))) {
                             mainShip.addShipPositionPoint(point);
+                            point.setFieldStatus(FieldStatus.SHIP);
                             mainShip.addShipPositionPoint(lowerPoint);
+                            lowerPoint.setFieldStatus(FieldStatus.SHIP);
                             mainShip.addShipPositionPoint(getLowerPoint(lowerPoint));
+                            getLowerPoint(lowerPoint).setFieldStatus(FieldStatus.SHIP);
                             mainShips.add(mainShip);
                         } else if (hasAlreadyShip(point) || hasAlreadyShip(lowerPoint) || hasAlreadyShip(getLowerPoint(lowerPoint))) {
                             throw new IllegalArgumentException("There is already a ship!");
@@ -109,12 +116,14 @@ public class Playground {
         for (MainShip mainShip : mainShips){
             if (mainShip.shipPosition.contains(point)){
                 mainShip.shipPosition.remove(point);
+                point.setFieldStatus(FieldStatus.DESTROYED);
                 if (mainShip.shipPosition.isEmpty()){
                     mainShips.remove(mainShip);
                 }
                 return true;
             }
         }
+        point.setFieldStatus(FieldStatus.FAILEDSHOT);
         return false;
     }
 
@@ -145,6 +154,7 @@ public class Playground {
     private void fill(List<Point> playground, char letter) {
         for (int i = 1; i <= size; i++) {
             Point p1 = new Point(letter, i);
+            p1.setFieldStatus(FieldStatus.EMPTY);
             playground.add(p1);
         }
     }
@@ -162,7 +172,7 @@ public class Playground {
         return size;
     }
 
-    private List<String> playgroundGetPointX() {
+    public List<String> playgroundGetPointX() {
         List<String> xList = new LinkedList<>();
         char x;
         for (int i = 0; i <= size - 1; i++) {
@@ -173,7 +183,7 @@ public class Playground {
         return xList;
     }
 
-    private List<String> playgroundGetPointY() {
+    public List<String> playgroundGetPointY() {
         List<String> yList = new LinkedList<>();
         int subtrahend = size - 1;
         while (subtrahend >= 0) {

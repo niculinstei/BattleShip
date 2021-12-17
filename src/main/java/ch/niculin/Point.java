@@ -1,15 +1,18 @@
 package ch.niculin;
 
 import java.util.Objects;
+import java.util.PrimitiveIterator;
 
 public class Point {
     private final char x;
     private final int y;
+    private FieldStatus fieldStatus;
 
     public Point(char x, int y) {
         this.x = x;
         this.y = y;
     }
+
 
     @Override
     public String toString() {
@@ -38,5 +41,13 @@ public class Point {
 
     public int getY() {
         return y;
+    }
+
+    public FieldStatus getFieldStatus() {
+        return fieldStatus;
+    }
+
+    public void setFieldStatus(FieldStatus fieldStatus) {
+        this.fieldStatus = fieldStatus;
     }
 }

@@ -5,6 +5,7 @@ import static ch.niculin.Direction.WAAGRECHT;
 
 public class Main {
     public static void main(String[] args) {
+Player player = new Player("Hans");
         Controll controll = new Controll();
 
         Playground playground = new Playground(10, "Hans");
@@ -34,5 +35,4 @@ public class Main {
         }
     }
 }
-//1. Felder haben statuse (leer, belegt, getrofen, verschossen) -> mit enum
-//2. Players einbauen das nicht alles über playground läuft
+
