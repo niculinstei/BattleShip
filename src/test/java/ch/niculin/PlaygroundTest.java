@@ -1,39 +1,36 @@
 package ch.niculin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import static ch.niculin.Direction.SENKRECHT;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlaygroundTest {
     Playground playground;
+    Player player;
 
     @BeforeEach
     void init(){
-        playground = new Playground(4, "Hans");
+        playground = new Playground(4);
     }
 
 
    @Test
      void testValidShipPlacement(){
        MainShip mainShip = new AirCraftCarrier(SENKRECHT);
-        playground.setMainShip(mainShip);
+        player.setMainShip(mainShip);
     }
 
     @Test
     void testInvalidShipPlacement(){
         MainShip mainShip = new AirCraftCarrier(SENKRECHT);
-        assertThrows(IllegalArgumentException.class, () -> playground.setMainShip(mainShip));
+        assertThrows(IllegalArgumentException.class, () -> player.setMainShip(mainShip));
     }
 
     @Test
     void testInvalidDoublePlacement(){
         MainShip mainShip = new AirCraftCarrier(SENKRECHT);
-        playground.setMainShip(mainShip);
-        assertThrows(IllegalArgumentException.class, () -> playground.setMainShip(mainShip));
+        player.setMainShip(mainShip);
+        assertThrows(IllegalArgumentException.class, () -> player.setMainShip(mainShip));
     }
 
 

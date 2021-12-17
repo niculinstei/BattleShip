@@ -1,26 +1,23 @@
 package ch.niculin;
 
-import static ch.niculin.Direction.SENKRECHT;
-import static ch.niculin.Direction.WAAGRECHT;
-
 public class Main {
     public static void main(String[] args) {
-Player player = new Player("Hans");
         Controll controll = new Controll();
-
-        Playground playground = new Playground(10, "Hans");
-        Playground playground2 = new Playground(10, "Max");
-        playground.setMainShip(new RubberBoat());
-        playground2.setMainShip(new RubberBoat());
+        Playground playground = new Playground(10);
+        Playground playground2 = new Playground(10);
+        Player player = new Player("Hans", playground);
+        Player player1 = new Player("Max", playground2);
+        player.setMainShip(new RubberBoat());
+        player1.setMainShip(new RubberBoat());
         boolean playerToggle = true;
-        while (!playground2.mainShips.isEmpty() && !playground.mainShips.isEmpty()){
-            Playground currentPlayer;
+        while (!player1.mainShips.isEmpty() && !player.mainShips.isEmpty()){
+            Player currentPlayer;
             if (playerToggle){
                 playerToggle = false;
-                currentPlayer = playground;
+                currentPlayer = player;
             } else{
                playerToggle = true;
-               currentPlayer = playground2;
+               currentPlayer = player1;
             }
             if (currentPlayer.shootShip(controll.makeShot())){
                 System.out.println("Hitt!!!");
@@ -28,10 +25,10 @@ Player player = new Player("Hans");
                 System.out.println("Faded!!!");
             }
         }
-        if (playground.mainShips.isEmpty()){
-            System.out.println(playground2.getName() + " Hat gewonnen!");
+        if (player.mainShips.isEmpty()){
+            System.out.println(player.getName() + " Hat gewonnen!");
         }else{
-            System.out.println(playground.getName() + " Hat gewonnen!");
+            System.out.println(player1.getName() + " Hat gewonnen!");
         }
     }
 }
