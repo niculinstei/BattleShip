@@ -13,7 +13,7 @@ class PlaygroundTest {
 
     @BeforeEach
     void init(){
-        playground = new Playground(4);
+        playground = new Playground(4, "Hans");
     }
 
 

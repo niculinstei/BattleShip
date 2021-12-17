@@ -7,4 +7,10 @@ public class SailingBoat extends MainShip {
         super.size = 2;
     }
 
+    @Override
+    public String toString() {
+        return "SailingBoat{" +
+                "size=" + size +
+                '}';
+    }
 }

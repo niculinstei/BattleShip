@@ -1,28 +1,38 @@
 package ch.niculin;
 
 import static ch.niculin.Direction.SENKRECHT;
+import static ch.niculin.Direction.WAAGRECHT;
 
 public class Main {
     public static void main(String[] args) {
-
         Controll controll = new Controll();
 
-        AirCraftCarrier airCraftCarrier = new AirCraftCarrier(SENKRECHT);
-        Playground playground = new Playground(6);
-
-        playground.setMainShip(airCraftCarrier);
-        System.out.println(playground);
-        Shot shot = controll.makeShot();
-        System.out.println(playground.shootShip(shot));
-        Shot shot2 = controll.makeShot();
-        System.out.println(playground.shootShip(shot2));
-        playground.checkEnd();
-        Shot shot3 = controll.makeShot();
-        System.out.println(playground.shootShip(shot3));
-        playground.checkEnd();
-
-
-
+        Playground playground = new Playground(10, "Hans");
+        Playground playground2 = new Playground(10, "Max");
+        playground.setMainShip(new RubberBoat());
+        playground2.setMainShip(new RubberBoat());
+        boolean playerToggle = true;
+        while (!playground2.mainShips.isEmpty() && !playground.mainShips.isEmpty()){
+            Playground currentPlayer;
+            if (playerToggle){
+                playerToggle = false;
+                currentPlayer = playground;
+            } else{
+               playerToggle = true;
+               currentPlayer = playground2;
+            }
+            if (currentPlayer.shootShip(controll.makeShot())){
+                System.out.println("Hitt!!!");
+            }else{
+                System.out.println("Faded!!!");
+            }
+        }
+        if (playground.mainShips.isEmpty()){
+            System.out.println(playground2.getName() + " Hat gewonnen!");
+        }else{
+            System.out.println(playground.getName() + " Hat gewonnen!");
+        }
     }
 }
-
+//1. Felder haben statuse (leer, belegt, getrofen, verschossen) -> mit enum
+//2. Players einbauen das nicht alles über playground läuft

@@ -7,8 +7,10 @@ public class Playground {
     private final List<Point> playground;
     List<MainShip> mainShips;
     private final int size;
+    private final String name;
 
-    public Playground(int size) {
+    public Playground(int size, String name) {
+        this.name = name;
         this.size = size;
         this.playground = initialisePlayground();
         mainShips = new LinkedList<>();
@@ -18,9 +20,10 @@ public class Playground {
     public void setMainShip(MainShip mainShip) {
         switch (mainShip.getSize()) {
             case 1 -> {
-                Point point = controll.getPoint();
+                Point point = controll.getPoint(mainShip);
                 if (playground.contains(point) && !hasAlreadyShip(point)) {
                     mainShip.addShipPositionPoint(point);
+                    mainShips.add(mainShip);
                 } else if (hasAlreadyShip(point)) {
                     throw new IllegalArgumentException("There is already a ship!");
                 } else {
@@ -28,7 +31,7 @@ public class Playground {
                 }
             }
             case 2 -> {
-                Point point = controll.getPoint();
+                Point point = controll.getPoint(mainShip);
                 switch (mainShip.getDirection()) {
                     case WAAGRECHT -> {
                         if (playground.contains(point) && playground.contains(getRightPoint(point)) && !hasAlreadyShip(point) && !hasAlreadyShip(getRightPoint(point))) {
@@ -55,7 +58,7 @@ public class Playground {
                 }
             }
             case 3 -> {
-                Point point = controll.getPoint();
+                Point point = controll.getPoint(mainShip);
                 switch (mainShip.getDirection()) {
                     case WAAGRECHT -> {
                         Point rightPoint = getRightPoint(point);
@@ -74,8 +77,8 @@ public class Playground {
                         Point lowerPoint = getLowerPoint(point);
                         if (playground.contains(point) && playground.contains(lowerPoint) && playground.contains(getLowerPoint(lowerPoint)) && !hasAlreadyShip(point) && !hasAlreadyShip(getLowerPoint(point)) && !hasAlreadyShip(getLowerPoint(lowerPoint))) {
                             mainShip.addShipPositionPoint(point);
-                            mainShip.addShipPositionPoint(getLowerPoint(lowerPoint));
                             mainShip.addShipPositionPoint(lowerPoint);
+                            mainShip.addShipPositionPoint(getLowerPoint(lowerPoint));
                             mainShips.add(mainShip);
                         } else if (hasAlreadyShip(point) || hasAlreadyShip(lowerPoint) || hasAlreadyShip(getLowerPoint(lowerPoint))) {
                             throw new IllegalArgumentException("There is already a ship!");
@@ -88,12 +91,8 @@ public class Playground {
         }
     }
 
-    public String shootShip(Shot shot){
-
-        if (hasAlreadyShip(shot)){
-            return "Hit!!";
-        }
-        return "Faded!!";
+    public boolean shootShip(Shot shot){
+        return hasAlreadyShipShot(shot);
     }
 
     private boolean hasAlreadyShip(Point point){
@@ -105,30 +104,21 @@ public class Playground {
         return false;
     }
 
-    private boolean hasAlreadyShip(Shot shot){
+    private boolean hasAlreadyShipShot(Shot shot){
         Point point = shot.getPoint();
         for (MainShip mainShip : mainShips){
             if (mainShip.shipPosition.contains(point)){
                 mainShip.shipPosition.remove(point);
+                if (mainShip.shipPosition.isEmpty()){
+                    mainShips.remove(mainShip);
+                }
                 return true;
             }
         }
         return false;
     }
 
-    public void checkEnd(){
-            for (MainShip mainShip: mainShips){
-                if (mainShip.shipPosition.isEmpty()){
-                    System.out.println("Du hasst ein Schiff zerstört!");
-                    mainShips.remove(mainShip);
-                    if (mainShips.isEmpty()){
-                        System.out.println("Alles Schiffe gefunden!!");
-                        System.exit(0);
-                    }
-                }
-            }
 
-    }
 
     private Point getRightPoint(Point point) {
         char x = point.getX();
@@ -192,5 +182,9 @@ public class Playground {
             subtrahend--;
         }
         return yList;
+    }
+
+    public String getName() {
+        return name;
     }
 }

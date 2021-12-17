@@ -6,6 +6,10 @@ public class RubberBoat extends MainShip {
         super.size = 1;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "RubberBoat{" +
+                "size=" + size +
+                '}';
+    }
 }

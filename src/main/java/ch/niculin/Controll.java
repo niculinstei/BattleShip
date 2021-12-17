@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class Controll extends MainShip{
 
-    Point getPoint(){
+    Point getPoint(MainShip mainShip){
 
-        System.out.println("Where you want to place your ship? ");
+        System.out.println("Where you want to place your " + mainShip );
         Scanner scanner = new Scanner(System.in);
         System.out.println("Buchstabe: ");
         char letter = scanner.next().toUpperCase(Locale.ROOT).charAt(0);

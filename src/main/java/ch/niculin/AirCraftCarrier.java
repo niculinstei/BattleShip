@@ -15,7 +15,7 @@ public class AirCraftCarrier extends MainShip {
     @Override
     public String toString() {
         return "AirCraftCarrier{" +
-                "shipPosition=" + shipPosition +
+                "size=" + size +
                 '}';
     }
 }
