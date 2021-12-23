@@ -4,8 +4,6 @@ import java.util.LinkedList;
 
 public class AirCraftCarrier extends MainShip {
 
-
-
     public AirCraftCarrier(Direction dircetion){
         super.direction = dircetion;
         super.size = 3;

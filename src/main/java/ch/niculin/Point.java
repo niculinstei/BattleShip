@@ -1,7 +1,6 @@
 package ch.niculin;
 
 import java.util.Objects;
-import java.util.PrimitiveIterator;
 
 public class Point {
     private final char x;

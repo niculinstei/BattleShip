@@ -2,6 +2,7 @@ package ch.niculin;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class Player {
     private final String name;
@@ -21,8 +22,16 @@ public class Player {
     public void setMainShip(MainShip mainShip) {
         switch (mainShip.getSize()) {
             case 1 -> {
-                Point point = controll.getPoint(mainShip);
+                Point inputPoint = controll.getPoint(mainShip);
+                Optional<Point> playgroundPoint = playground.getPlaygroundPoint(inputPoint);
+                Point point;
+                if (playgroundPoint.isPresent()){
+                    point = playgroundPoint.get();
+                }else{
+                    throw new IllegalArgumentException("Invalid inpunt");
+                }
                 if (battleground.contains(point) && !hasAlreadyShip(point)) {
+                    point.setFieldStatus(FieldStatus.SHIP);
                     mainShip.addShipPositionPoint(point);
                     mainShips.add(mainShip);
                 } else if (hasAlreadyShip(point)) {
@@ -37,7 +46,9 @@ public class Player {
                     case WAAGRECHT -> {
                         if (battleground.contains(point) && battleground.contains(getRightPoint(point)) && !hasAlreadyShip(point) && !hasAlreadyShip(getRightPoint(point))) {
                             mainShip.addShipPositionPoint(point);
+                            point.setFieldStatus(FieldStatus.SHIP);
                             mainShip.addShipPositionPoint(getRightPoint(point));
+                            getRightPoint(point).setFieldStatus(FieldStatus.SHIP);
                             mainShips.add(mainShip);
                         } else if (hasAlreadyShip(point) || hasAlreadyShip(getRightPoint(point))) {
                             throw new IllegalArgumentException("There is already a ship!");
@@ -48,7 +59,9 @@ public class Player {
                     case SENKRECHT -> {
                         if (battleground.contains(point) && battleground.contains(getLowerPoint(point)) && !hasAlreadyShip(point) && !hasAlreadyShip(getLowerPoint(point))) {
                             mainShip.addShipPositionPoint(point);
+                            point.setFieldStatus(FieldStatus.SHIP);
                             mainShip.addShipPositionPoint(getLowerPoint(point));
+                            getLowerPoint(point).setFieldStatus(FieldStatus.SHIP);
                             mainShips.add(mainShip);
                         } else if (hasAlreadyShip(point) || hasAlreadyShip(getLowerPoint(point))) {
                             throw new IllegalArgumentException("There is already a ship!");
@@ -97,6 +110,13 @@ public class Player {
             }
         }
     }
+    public boolean shootShip(Shot shot){
+        return hasAlreadyShipShot(shot);
+    }
+
+    public String getName() {
+        return name;
+    }
 
     private Point getRightPoint(Point point) {
         char x = point.getX();
@@ -119,10 +139,6 @@ public class Player {
         return false;
     }
 
-    public boolean shootShip(Shot shot){
-        return hasAlreadyShipShot(shot);
-    }
-
     private boolean hasAlreadyShipShot(Shot shot){
         Point point = shot.getPoint();
         for (MainShip mainShip : mainShips){
@@ -137,9 +153,5 @@ public class Player {
         }
         point.setFieldStatus(FieldStatus.FAILEDSHOT);
         return false;
-    }
-
-    public String getName() {
-        return name;
     }
 }

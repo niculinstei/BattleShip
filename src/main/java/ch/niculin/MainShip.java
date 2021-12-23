@@ -11,7 +11,7 @@ public abstract class MainShip {
     public int getSize() {
         return size;
     }
-//Fehler
+
     public void addShipPositionPoint(Point point){
         if ( shipPosition.size() >= size){
             throw new IllegalArgumentException("Ship already placed completly!");
