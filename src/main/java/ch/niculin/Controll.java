@@ -25,4 +25,9 @@ public class Controll extends MainShip {
         int number = scanner.nextInt();
         return new Shot(letter, number);
     }
+
+    public int chooseGameMode(){
+        System.out.println("Which mode do you want to play?\nSingleplayer 1\nMultyplayer 2");
+        return new Scanner(System.in).nextInt();
+    }
 }
