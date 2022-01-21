@@ -1,53 +1,32 @@
-package ch.niculin;
+package ch.niculin.player;
 
-import java.util.List;
+import ch.niculin.Controll;
+import ch.niculin.FieldStatus;
+import ch.niculin.Playground;
+import ch.niculin.Point;
+import ch.niculin.ships.MainShip;
+
 import java.util.Optional;
 
-
 public class Human extends Player {
-Playground playground;
     Controll controll = new Controll();
-    private final List<Point> battleground;
+
     public Human(String name, Playground playground) {
-        super(name,playground);
-        this.playground = playground;
-        battleground = playground.getPlayground();
-
-    }
-
-    @Override
-    public boolean shootShip(Shot shot) {
-        return hasAlreadyShipShot(new Shot(getRandomChar(),getRandomInt()));
-    }
-
-    private boolean hasAlreadyShipShot(Shot shot) {
-        Point point = shot.getPoint();
-        for (MainShip mainShip : getMainShips()) {
-            if (mainShip.shipPosition.contains(point)) {
-                mainShip.shipPosition.remove(point);
-                point.setFieldStatus(FieldStatus.DESTROYED);
-                if (mainShip.shipPosition.isEmpty()) {
-                    getMainShips().remove(mainShip);
-                }
-                return true;
-            }
-        }
-        point.setFieldStatus(FieldStatus.FAILEDSHOT);
-        return false;
+        super(name, playground);
     }
 
     public void setMainShip(MainShip mainShip) {
         switch (mainShip.getSize()) {
             case 1 -> {
                 Point inputPoint = controll.getPoint(mainShip);
-                Optional<Point> playgroundPoint = getPlayground().getPlaygroundPoint(inputPoint);
+                Optional<Point> playgroundPoint = getPlaygroundPoint(inputPoint);
                 Point point;
                 if (playgroundPoint.isPresent()) {
                     point = playgroundPoint.get();
                 } else {
                     throw new IllegalArgumentException("Invalid inpunt");
                 }
-                if (getBattleground().contains(point) && !hasAlreadyShip(point)) {
+                if (getPlayground().contains(point) && !hasAlreadyShip(point)) {
                     point.setFieldStatus(FieldStatus.SHIP);
                     mainShip.addShipPositionPoint(point);
                     getMainShips().add(mainShip);
@@ -61,7 +40,7 @@ Playground playground;
                 Point point = controll.getPoint(mainShip);
                 switch (mainShip.getDirection()) {
                     case WAAGRECHT -> {
-                        if (getBattleground().contains(point) && getBattleground().contains(getRightPoint(point)) && !hasAlreadyShip(point) && !hasAlreadyShip(getRightPoint(point))) {
+                        if (getPlayground().contains(point) && getPlayground().contains(getRightPoint(point)) && !hasAlreadyShip(point) && !hasAlreadyShip(getRightPoint(point))) {
                             mainShip.addShipPositionPoint(point);
                             point.setFieldStatus(FieldStatus.SHIP);
                             mainShip.addShipPositionPoint(getRightPoint(point));
@@ -74,7 +53,7 @@ Playground playground;
                         }
                     }
                     case SENKRECHT -> {
-                        if (getBattleground().contains(point) && getBattleground().contains(getLowerPoint(point)) && !hasAlreadyShip(point) && !hasAlreadyShip(getLowerPoint(point))) {
+                        if (getPlayground().contains(point) && getPlayground().contains(getLowerPoint(point)) && !hasAlreadyShip(point) && !hasAlreadyShip(getLowerPoint(point))) {
                             mainShip.addShipPositionPoint(point);
                             point.setFieldStatus(FieldStatus.SHIP);
                             mainShip.addShipPositionPoint(getLowerPoint(point));
@@ -93,7 +72,7 @@ Playground playground;
                 switch (mainShip.getDirection()) {
                     case WAAGRECHT -> {
                         Point rightPoint = getRightPoint(point);
-                        if (getBattleground().contains(point) && getBattleground().contains(rightPoint) && getBattleground().contains(getRightPoint(rightPoint)) && !hasAlreadyShip(point) && !hasAlreadyShip(rightPoint) && !hasAlreadyShip(getRightPoint(rightPoint))) {
+                        if (getPlayground().contains(point) && getPlayground().contains(rightPoint) && getPlayground().contains(getRightPoint(rightPoint)) && !hasAlreadyShip(point) && !hasAlreadyShip(rightPoint) && !hasAlreadyShip(getRightPoint(rightPoint))) {
                             mainShip.addShipPositionPoint(point);
                             point.setFieldStatus(FieldStatus.SHIP);
                             mainShip.addShipPositionPoint(getRightPoint(rightPoint));
@@ -109,7 +88,7 @@ Playground playground;
                     }
                     case SENKRECHT -> {
                         Point lowerPoint = getLowerPoint(point);
-                        if (getBattleground().contains(point) && getBattleground().contains(lowerPoint) && getBattleground().contains(getLowerPoint(lowerPoint)) && !hasAlreadyShip(point) && !hasAlreadyShip(getLowerPoint(point)) && !hasAlreadyShip(getLowerPoint(lowerPoint))) {
+                        if (getPlayground().contains(point) && getPlayground().contains(lowerPoint) && getPlayground().contains(getLowerPoint(lowerPoint)) && !hasAlreadyShip(point) && !hasAlreadyShip(getLowerPoint(point)) && !hasAlreadyShip(getLowerPoint(lowerPoint))) {
                             mainShip.addShipPositionPoint(point);
                             point.setFieldStatus(FieldStatus.SHIP);
                             mainShip.addShipPositionPoint(lowerPoint);
@@ -128,28 +107,24 @@ Playground playground;
         }
     }
 
-    private Point getRightPoint(Point point){
+    private Point getRightPoint(Point point) {
         char x = point.getX();
         x++;
         return new Point(x, point.getY());
     }
 
-    private Point getLowerPoint(Point point){
+    private Point getLowerPoint(Point point) {
         int y = point.getY();
         y++;
         return new Point(point.getX(), y);
     }
 
-    private boolean hasAlreadyShip(Point point){
+    private boolean hasAlreadyShip(Point point) {
         for (MainShip mainShip : getMainShips()) {
-            if (mainShip.shipPosition.contains(point)) {
+            if (mainShip.getShipPosition().contains(point)) {
                 return true;
             }
         }
         return false;
-    }
-
-    public List<Point> getBattleground() {
-        return battleground;
     }
 }

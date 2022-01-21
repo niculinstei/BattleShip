@@ -1,6 +1,12 @@
 package ch.niculin;
 
+import ch.niculin.player.Computer;
+import ch.niculin.player.Human;
+import ch.niculin.player.Player;
+import ch.niculin.ships.RubberBoat;
+
 import static ch.niculin.PlaygroundPrinter.print;
+import static ch.niculin.secondPrinter.secondPrint;
 
 public class Game {
     Controll controll = new Controll();
@@ -21,6 +27,8 @@ public class Game {
                 Computer computer = new Computer(playground1);
                 player.setMainShip(new RubberBoat());
                 computer.generateShips();
+                secondPrint(player.getPlaygroundAsPlaygroundObject());
+                secondPrint(computer.getPlaygroundAsPlaygroundObject());
                 startGame(player, computer);
                 return getWinner(player, computer);
             }
@@ -30,7 +38,6 @@ public class Game {
                 Human player = new Human("Hans", playground);
                 Human player1 = new Human("Max", playground2);
                 fillPlayground(player, player1);
-                print(playground);
                 startGame(player, player1);
                 return getWinner(player, player1);
             }
@@ -47,41 +54,49 @@ public class Game {
         boolean playerToggle = true;
         while (!player1.getMainShips().isEmpty() && !player.getMainShips().isEmpty()) {
             Player currentPlayer;
+            Player otherPlayer;
             if (playerToggle) {
                 playerToggle = false;
                 currentPlayer = player;
+                otherPlayer = player1;
             } else {
                 playerToggle = true;
                 currentPlayer = player1;
+                otherPlayer = player;
             }
-            if (mode == 2) {
-                if (currentPlayer.shootShip(controll.makeShot())) {
-                    System.out.println("Hitt!!!");
-                } else {
-                    System.out.println("Faded!!!");
-                }
-            } else{
-                if (currentPlayer.equals(player1)){
-                    if (currentPlayer.shootShip(currentPlayer.getRandomShot())) {
-                        System.out.println("\nComputer:\nHitt!!!");
-                    } else {
-                        System.out.println("\nComputer:\nFaded!!!\n");
-                    }
-                } else{
-                    if (currentPlayer.shootShip(controll.makeShot())) {
-                        System.out.println("Hitt!!!");
-                    } else {
-                        System.out.println("Faded!!!");
-                    }
-                }
-            }
-
+            shotControll(currentPlayer, otherPlayer);
+            System.out.println(player.getName() + " Playgrounds");
+            print(player.getPlaygroundAsPlaygroundObject(), player.getHittedShipPoints(), player.getDestroyedShips(), player.getFaildShots());
+            secondPrint(player.getPlaygroundAsPlaygroundObject());
+            System.out.println(player1.getName() + " Playgrounds");
+            print(player1.getPlaygroundAsPlaygroundObject(), player1.getHittedShipPoints(), player1.getDestroyedShips(), player1.getFaildShots());
+            secondPrint(player1.getPlaygroundAsPlaygroundObject());
         }
     }
 
+    private void shotControll(Player currentPlayer, Player otherPlaer){
+            Shot shot;
+            if (currentPlayer instanceof Computer) {
+                shot = ((Computer)currentPlayer).getRandomShot();
+            } else {
+                shot = controll.makeShot();
+            }
+            if (currentPlayer.shootShip(shot, otherPlaer.getPlaygroundAsPlaygroundObject(), otherPlaer.getMainShips())) {
+                System.out.println(currentPlayer.getName() + " Hit!!!");
+            } else {
+                System.out.println(currentPlayer.getName() + " Missed!!!");
+            }
+        }
+
+
+
+
+    // Liste mit allen getroffenen Punkten in Player
+    // Point hat nur noch 2 status; beschossen oder nicht, das andere ergibt sich aus der Liste der getroffenen Schiffe
+    // Print Methode anpassen, die MainShip liste übergeben
+
 
     private String getWinner(Player player, Player player1) {
-        print(player1.getPlayground());
         if (player.getMainShips().isEmpty()) {
             return player1.getName();
         } else {

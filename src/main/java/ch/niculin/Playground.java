@@ -22,6 +22,12 @@ public class Playground {
         return playground;
     }
 
+    /**
+     * Return playground point from every point.
+     *
+     * @param inputPoint any point
+     * @return corresponding within a playground field
+     */
     public Optional<Point> getPlaygroundPoint(Point inputPoint){
         for (Point point: playground){
             if (point.equals(inputPoint)){

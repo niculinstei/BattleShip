@@ -1,12 +1,15 @@
-package ch.niculin;
+package ch.niculin.ships;
+
+import ch.niculin.Direction;
+import ch.niculin.Point;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class MainShip {
-    Direction direction;
-    int size;
-    List<Point> shipPosition = new LinkedList<>();
+    private Direction direction;
+    private int size;
+    private final List<Point> shipPosition = new LinkedList<>();
 
     public int getSize() {
         return size;
@@ -22,5 +25,17 @@ public abstract class MainShip {
 
     public Direction getDirection() {
         return direction;
+    }
+
+    public List<Point> getShipPosition() {
+        return shipPosition;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }

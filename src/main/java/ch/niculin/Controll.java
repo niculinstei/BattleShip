@@ -1,11 +1,13 @@
 package ch.niculin;
 
+import ch.niculin.ships.MainShip;
+
 import java.util.Locale;
 import java.util.Scanner;
 
 public class Controll extends MainShip {
 
-    Point getPoint(MainShip mainShip) {
+    public Point getPoint(MainShip mainShip) {
 
         System.out.println("Where you want to place your " + mainShip);
         Scanner scanner = new Scanner(System.in);
