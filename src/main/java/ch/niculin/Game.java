@@ -52,7 +52,7 @@ public class Game {
 
     private void startGame(Player player, Player player1) {
         boolean playerToggle = true;
-        while (!player1.getMainShips().isEmpty() && !player.getMainShips().isEmpty()) {
+        while (player1.hasShipsAlive() && player.hasShipsAlive()) {
             Player currentPlayer;
             Player otherPlayer;
             if (playerToggle) {
@@ -74,30 +74,22 @@ public class Game {
         }
     }
 
-    private void shotControll(Player currentPlayer, Player otherPlaer){
-            Shot shot;
-            if (currentPlayer instanceof Computer) {
-                shot = ((Computer)currentPlayer).getRandomShot();
-            } else {
-                shot = controll.makeShot();
-            }
-            if (currentPlayer.shootShip(shot, otherPlaer.getPlaygroundAsPlaygroundObject(), otherPlaer.getMainShips())) {
-                System.out.println(currentPlayer.getName() + " Hit!!!");
-            } else {
-                System.out.println(currentPlayer.getName() + " Missed!!!");
-            }
+    private void shotControll(Player currentPlayer, Player otherPlaer) {
+        Shot shot;
+        if (currentPlayer instanceof Computer) {
+            shot = ((Computer) currentPlayer).getRandomShot();
+        } else {
+            shot = controll.makeShot();
         }
-
-
-
-
-    // Liste mit allen getroffenen Punkten in Player
-    // Point hat nur noch 2 status; beschossen oder nicht, das andere ergibt sich aus der Liste der getroffenen Schiffe
-    // Print Methode anpassen, die MainShip liste übergeben
-
+        if (currentPlayer.shootShip(shot, otherPlaer.getPlaygroundAsPlaygroundObject(), otherPlaer.getMainShips())) {
+            System.out.println(currentPlayer.getName() + " Hit!!!");
+        } else {
+            System.out.println(currentPlayer.getName() + " Missed!!!");
+        }
+    }
 
     private String getWinner(Player player, Player player1) {
-        if (player.getMainShips().isEmpty()) {
+        if (!player.hasShipsAlive()) {
             return player1.getName();
         } else {
             return player.getName();

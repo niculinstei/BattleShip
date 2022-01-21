@@ -6,9 +6,9 @@ import java.util.List;
 
 public class PlaygroundPrinter {
 
-    public static void print(Playground playground, List<Point> hittedPoints, List<MainShip> destoryedShips, List<Point> faildShots) {
+    public static void print(Playground playground, List<Point> hitOpponentPoints, List<Point> destroyedOpponentShips, List<Point> playerFailedShots) {
         printXAxis(playground.getSize());
-        printLines(playground, hittedPoints, destoryedShips, faildShots);
+        printLines(playground, hitOpponentPoints, destroyedOpponentShips, playerFailedShots);
     }
 
     private static void printXAxis(int size) {
@@ -21,7 +21,7 @@ public class PlaygroundPrinter {
         System.out.println();
     }
 
-    private static void printLines(Playground playground, List<Point> hittedPoints, List<MainShip> destoryedShips, List<Point> faildShots) {
+    private static void printLines(Playground playground, List<Point> hittedPoints, List<Point> destoryedShips, List<Point> faildShots) {
         int size = playground.getSize();
         for (int j = 1; j <= size; j++) {
             printLine(playground, j, hittedPoints, destoryedShips, faildShots);
@@ -29,15 +29,15 @@ public class PlaygroundPrinter {
         }
     }
 
-    private static void printLine(Playground playground, int lineNumber, List<Point> hittedPoints, List<MainShip> destoryedShips, List<Point> faildShots) {
+    private static void printLine(Playground playground, int lineNumber, List<Point> hittedPoints, List<Point> destoryedShips, List<Point> faildShots) {
         List<Point> line = playground.getLine(lineNumber);
         for (Point point : line) {
             printField(point, hittedPoints, destoryedShips, faildShots);
         }
     }
 
-    private static void printField(Point point, List<Point> hittedPoints, List<MainShip> destoryedShips, List<Point> faildShots) {
-        if (checkDestruction(point, destoryedShips)) {
+    private static void printField(Point point, List<Point> hittedPoints, List<Point> destoryedShips, List<Point> faildShots) {
+        if (destoryedShips.contains(point)) {
             System.out.print("|‡_");
         } else if (hittedPoints.contains(point)) {
             System.out.print("|†_");
@@ -47,18 +47,5 @@ public class PlaygroundPrinter {
             System.out.print("|__");
         }
     }
-
-    private static boolean checkDestruction (Point point, List < MainShip > destoryedShips){
-        for (MainShip mainShip : destoryedShips) {
-            return mainShip.getShipPosition().contains(point);
-        }
-        return false;
-    }
 }
 
-    /*        switch (point.getFieldStatus()){
-            case EMPTY -> System.out.print("|__");
-            case SHIP -> System.out.print("|Δ_");
-            //case DESTROYED -> System.out.print("|†_");
-            case FAILEDSHOT -> System.out.print("|≠_");
-        }*/

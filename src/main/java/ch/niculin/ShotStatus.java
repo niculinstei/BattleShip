@@ -1,6 +1,7 @@
 package ch.niculin;
 
-public enum FieldStatus {
+public enum ShotStatus {
     EMPTY,
+    SHOT,
     SHIP,
 }

@@ -2,6 +2,7 @@ package ch.niculin.ships;
 
 import ch.niculin.Direction;
 import ch.niculin.Point;
+import ch.niculin.ShotStatus;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,10 +16,10 @@ public abstract class MainShip {
         return size;
     }
 
-    public void addShipPositionPoint(Point point){
-        if ( shipPosition.size() >= size){
+    public void addShipPositionPoint(Point point) {
+        if (shipPosition.size() >= size) {
             throw new IllegalArgumentException("Ship already placed completly!");
-        }else {
+        } else {
             shipPosition.add(point);
         }
     }
@@ -37,5 +38,18 @@ public abstract class MainShip {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public boolean isDistroyed() {
+        for (Point point : shipPosition) {
+            if (point.getShotStatus() != ShotStatus.SHOT) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void markPointAsShot(Point point) {
+        point.setFieldStatus(ShotStatus.SHOT);
     }
 }

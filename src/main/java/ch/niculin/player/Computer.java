@@ -33,7 +33,7 @@ public class Computer extends Player {
         RubberBoat rubberBoat = new RubberBoat();
         rubberBoat.addShipPositionPoint(point);
         getMainShips().add(rubberBoat);
-        point.setFieldStatus(FieldStatus.SHIP);
+        point.setFieldStatus(ShotStatus.SHIP);
 
         SailingBoat sailingBoat = new SailingBoat(Direction.WAAGRECHT);
         Point point1created = new Point('B', 2);
@@ -46,10 +46,10 @@ public class Computer extends Player {
         }
         sailingBoat.addShipPositionPoint(point1);
         getMainShips().add(sailingBoat);
-        point1.setFieldStatus(FieldStatus.SHIP);
+        point1.setFieldStatus(ShotStatus.SHIP);
         Point rightPoint = getRightPoint(point1);
         sailingBoat.addShipPositionPoint(rightPoint);
-        rightPoint.setFieldStatus(FieldStatus.SHIP);
+        rightPoint.setFieldStatus(ShotStatus.SHIP);
 
     }
 

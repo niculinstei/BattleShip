@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Point {
     private final char x;
     private final int y;
-    private FieldStatus fieldStatus;
+    private ShotStatus shotStatus;
 
     public Point(char x, int y) {
         this.x = x;
@@ -42,11 +42,11 @@ public class Point {
         return y;
     }
 
-    public FieldStatus getFieldStatus() {
-        return fieldStatus;
+    public ShotStatus getShotStatus() {
+        return shotStatus;
     }
 
-    public void setFieldStatus(FieldStatus fieldStatus) {
-        this.fieldStatus = fieldStatus;
+    public void setFieldStatus(ShotStatus shotStatus) {
+        this.shotStatus = shotStatus;
     }
 }

@@ -1,4 +1,5 @@
 package ch.niculin;
+
 import java.util.List;
 
 public class secondPrinter {
@@ -32,9 +33,11 @@ public class secondPrinter {
         }
     }
 
-    private static void printSecondField (Point point){
-        if (point.getFieldStatus() == FieldStatus.SHIP) {
+    private static void printSecondField(Point point) {
+        if (point.getShotStatus() == ShotStatus.SHIP) {
             System.out.print("|Δ_");
+        } else if (point.getShotStatus() == ShotStatus.SHOT) {
+            System.out.print("|†_");
         } else {
             System.out.print("|__");
         }

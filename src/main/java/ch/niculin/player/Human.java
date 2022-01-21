@@ -1,7 +1,7 @@
 package ch.niculin.player;
 
 import ch.niculin.Controll;
-import ch.niculin.FieldStatus;
+import ch.niculin.ShotStatus;
 import ch.niculin.Playground;
 import ch.niculin.Point;
 import ch.niculin.ships.MainShip;
@@ -27,7 +27,7 @@ public class Human extends Player {
                     throw new IllegalArgumentException("Invalid inpunt");
                 }
                 if (getPlayground().contains(point) && !hasAlreadyShip(point)) {
-                    point.setFieldStatus(FieldStatus.SHIP);
+                    point.setFieldStatus(ShotStatus.SHIP);
                     mainShip.addShipPositionPoint(point);
                     getMainShips().add(mainShip);
                 } else if (hasAlreadyShip(point)) {
@@ -42,9 +42,9 @@ public class Human extends Player {
                     case WAAGRECHT -> {
                         if (getPlayground().contains(point) && getPlayground().contains(getRightPoint(point)) && !hasAlreadyShip(point) && !hasAlreadyShip(getRightPoint(point))) {
                             mainShip.addShipPositionPoint(point);
-                            point.setFieldStatus(FieldStatus.SHIP);
+                            point.setFieldStatus(ShotStatus.SHIP);
                             mainShip.addShipPositionPoint(getRightPoint(point));
-                            getRightPoint(point).setFieldStatus(FieldStatus.SHIP);
+                            getRightPoint(point).setFieldStatus(ShotStatus.SHIP);
                             getMainShips().add(mainShip);
                         } else if (hasAlreadyShip(point) || hasAlreadyShip(getRightPoint(point))) {
                             throw new IllegalArgumentException("There is already a ship!");
@@ -55,9 +55,9 @@ public class Human extends Player {
                     case SENKRECHT -> {
                         if (getPlayground().contains(point) && getPlayground().contains(getLowerPoint(point)) && !hasAlreadyShip(point) && !hasAlreadyShip(getLowerPoint(point))) {
                             mainShip.addShipPositionPoint(point);
-                            point.setFieldStatus(FieldStatus.SHIP);
+                            point.setFieldStatus(ShotStatus.SHIP);
                             mainShip.addShipPositionPoint(getLowerPoint(point));
-                            getLowerPoint(point).setFieldStatus(FieldStatus.SHIP);
+                            getLowerPoint(point).setFieldStatus(ShotStatus.SHIP);
                             getMainShips().add(mainShip);
                         } else if (hasAlreadyShip(point) || hasAlreadyShip(getLowerPoint(point))) {
                             throw new IllegalArgumentException("There is already a ship!");
@@ -74,11 +74,11 @@ public class Human extends Player {
                         Point rightPoint = getRightPoint(point);
                         if (getPlayground().contains(point) && getPlayground().contains(rightPoint) && getPlayground().contains(getRightPoint(rightPoint)) && !hasAlreadyShip(point) && !hasAlreadyShip(rightPoint) && !hasAlreadyShip(getRightPoint(rightPoint))) {
                             mainShip.addShipPositionPoint(point);
-                            point.setFieldStatus(FieldStatus.SHIP);
+                            point.setFieldStatus(ShotStatus.SHIP);
                             mainShip.addShipPositionPoint(getRightPoint(rightPoint));
-                            getRightPoint(rightPoint).setFieldStatus(FieldStatus.SHIP);
+                            getRightPoint(rightPoint).setFieldStatus(ShotStatus.SHIP);
                             mainShip.addShipPositionPoint(rightPoint);
-                            rightPoint.setFieldStatus(FieldStatus.SHIP);
+                            rightPoint.setFieldStatus(ShotStatus.SHIP);
                             getMainShips().add(mainShip);
                         } else if (hasAlreadyShip(point) || hasAlreadyShip(getRightPoint(point)) || hasAlreadyShip(getRightPoint(rightPoint))) {
                             throw new IllegalArgumentException("There is already a ship!");
@@ -90,11 +90,11 @@ public class Human extends Player {
                         Point lowerPoint = getLowerPoint(point);
                         if (getPlayground().contains(point) && getPlayground().contains(lowerPoint) && getPlayground().contains(getLowerPoint(lowerPoint)) && !hasAlreadyShip(point) && !hasAlreadyShip(getLowerPoint(point)) && !hasAlreadyShip(getLowerPoint(lowerPoint))) {
                             mainShip.addShipPositionPoint(point);
-                            point.setFieldStatus(FieldStatus.SHIP);
+                            point.setFieldStatus(ShotStatus.SHIP);
                             mainShip.addShipPositionPoint(lowerPoint);
-                            lowerPoint.setFieldStatus(FieldStatus.SHIP);
+                            lowerPoint.setFieldStatus(ShotStatus.SHIP);
                             mainShip.addShipPositionPoint(getLowerPoint(lowerPoint));
-                            getLowerPoint(lowerPoint).setFieldStatus(FieldStatus.SHIP);
+                            getLowerPoint(lowerPoint).setFieldStatus(ShotStatus.SHIP);
                             getMainShips().add(mainShip);
                         } else if (hasAlreadyShip(point) || hasAlreadyShip(lowerPoint) || hasAlreadyShip(getLowerPoint(lowerPoint))) {
                             throw new IllegalArgumentException("There is already a ship!");

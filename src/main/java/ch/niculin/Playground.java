@@ -62,7 +62,7 @@ public class Playground {
         char letter = 'A';
         for (int i = letter; i < size + letter; i++) {
             Point p1 = new Point((char) i, number);
-            p1.setFieldStatus(FieldStatus.EMPTY);
+            p1.setFieldStatus(ShotStatus.EMPTY);
             playground.add(p1);
         }
     }

@@ -1,6 +1,5 @@
 package ch.niculin.player;
 
-import ch.niculin.FieldStatus;
 import ch.niculin.Playground;
 import ch.niculin.Point;
 import ch.niculin.Shot;
@@ -15,7 +14,7 @@ public abstract class Player {
     private final String name;
     private final List<MainShip> mainShips;
     private final List<Point> hittedShipPoints;
-    private final List<MainShip> destroyedShips;
+    private final List<Point> destroyedShips;
     private final List<Point> faildShots;
 
     public Player(String name, Playground playground) {
@@ -27,18 +26,17 @@ public abstract class Player {
         faildShots = new LinkedList<>();
     }
 
-    public boolean shootShip(Shot shot, Playground playgrounOfOtherPlayer, List<MainShip> mainShipList){
+    public boolean shootShip(Shot shot, Playground playgrounOfOtherPlayer, List<MainShip> mainShipList) {
         Optional<Point> playgroundPoint = playgrounOfOtherPlayer.getPlaygroundPoint(shot.getPoint());
 
-        if (playgroundPoint.isEmpty()){
+        if (playgroundPoint.isEmpty()) {
             return false;
-        }else{
+        } else {
             for (MainShip mainShip : mainShipList) {
                 if (mainShip.getShipPosition().contains(playgroundPoint.get())) {
-                    mainShip.getShipPosition().remove(playgroundPoint.get());
-                    if (mainShip.getShipPosition().isEmpty()) {
-                        mainShipList.remove(mainShip);
-                        destroyedShips.add(mainShip);
+                    mainShip.markPointAsShot(playgroundPoint.get());
+                    if (mainShip.isDistroyed()) {
+                        destroyedShips.addAll(mainShip.getShipPosition());
                     }
                     hittedShipPoints.add(playgroundPoint.get());
                     return true;
@@ -51,6 +49,14 @@ public abstract class Player {
         }
     }
 
+    public boolean hasShipsAlive() {
+        for (MainShip mainShip : mainShips) {
+            if (!mainShip.isDistroyed()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public String getName() {
         return name;
@@ -64,16 +70,15 @@ public abstract class Player {
         return playground;
     }
 
-    public Optional<Point> getPlaygroundPoint(Point inputPoint){
+    public Optional<Point> getPlaygroundPoint(Point inputPoint) {
         return playground.getPlaygroundPoint(inputPoint);
     }
 
-
-        public List<MainShip> getMainShips() {
+    public List<MainShip> getMainShips() {
         return mainShips;
     }
 
-    public int getPlaygroundSize(){
+    public int getPlaygroundSize() {
         return playground.getSize();
     }
 
@@ -81,7 +86,7 @@ public abstract class Player {
         return hittedShipPoints;
     }
 
-    public List<MainShip> getDestroyedShips() {
+    public List<Point> getDestroyedShips() {
         return destroyedShips;
     }
 
