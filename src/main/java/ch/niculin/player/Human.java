@@ -118,13 +118,4 @@ public class Human extends Player {
         y++;
         return new Point(point.getX(), y);
     }
-
-    private boolean hasAlreadyShip(Point point) {
-        for (MainShip mainShip : getMainShips()) {
-            if (mainShip.getShipPosition().contains(point)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

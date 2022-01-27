@@ -7,4 +7,5 @@ public class Main {
         System.out.println(winnerName + " won the game!");
     }
 }
-
+// Spiele Logik mit den anzahl schiffen und so; schauen wie wann welchen Playground
+// Mit gui wieder weitermachen wens geht

@@ -32,4 +32,14 @@ public class Controll extends MainShip {
         System.out.println("Which mode do you want to play?\nSingleplayer 1\nMultyplayer 2");
         return new Scanner(System.in).nextInt();
     }
+
+    public int chooseSize(){
+        System.out.println("Choose the size of the field:\nBig 1\nMiddle 2\nLittle 3");
+        int input = new Scanner(System.in).nextInt();
+        if (input == 1){
+            return 10;
+        } else if (input == 2){
+            return 8;
+        } else return 5;
+    }
 }

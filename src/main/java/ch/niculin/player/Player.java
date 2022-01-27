@@ -58,6 +58,15 @@ public abstract class Player {
         return false;
     }
 
+     boolean hasAlreadyShip(Point point) {
+        for (MainShip mainShip : getMainShips()) {
+            if (mainShip.getShipPosition().contains(point)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String getName() {
         return name;
     }

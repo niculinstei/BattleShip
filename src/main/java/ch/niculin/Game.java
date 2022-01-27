@@ -7,18 +7,21 @@ import ch.niculin.ships.RubberBoat;
 
 import static ch.niculin.PlaygroundPrinter.print;
 import static ch.niculin.secondPrinter.secondPrint;
+import static ch.niculin.GameMode.shipQuantity;
 
 public class Game {
     Controll controll = new Controll();
-    private final static int MAP_SIZE = 4;
+    static int MAP_SIZE;
     int mode;
 
     public String play() {
         mode = controll.chooseGameMode();
+        MAP_SIZE = controll.chooseSize();
         return createPlayground(mode);
     }
 
     private String createPlayground(int mode) {
+
         switch (mode) {
             case 1 -> {
                 Playground playground = new Playground(MAP_SIZE);
@@ -26,7 +29,7 @@ public class Game {
                 Human player = new Human("Peter", playground);
                 Computer computer = new Computer(playground1);
                 player.setMainShip(new RubberBoat());
-                computer.generateShips();
+                computer.generateShips(shipQuantity(MAP_SIZE));
                 secondPrint(player.getPlaygroundAsPlaygroundObject());
                 secondPrint(computer.getPlaygroundAsPlaygroundObject());
                 startGame(player, computer);
@@ -94,5 +97,8 @@ public class Game {
         } else {
             return player.getName();
         }
+    }
+    public static int getMapSize(){
+        return MAP_SIZE;
     }
 }
