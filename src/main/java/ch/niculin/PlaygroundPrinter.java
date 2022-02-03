@@ -39,7 +39,7 @@ public class PlaygroundPrinter {
     private static void printField(Point point, List<Point> hittedPoints, List<Point> destoryedShips, List<Point> faildShots) {
         if (destoryedShips.contains(point)) {
             System.out.print("|‡_");
-        } else if (hittedPoints.contains(point)) {
+        } else if (hittedPoints.contains(point)&& !destoryedShips.contains(point)) {
             System.out.print("|†_");
         } else if (faildShots.contains(point)) {
             System.out.print("|≠_");

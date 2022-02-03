@@ -11,7 +11,6 @@ public class Playground {
     public Playground(int size) {
         this.size = size;
         this.playground = initialisePlayground();
-
     }
 
     public int getSize() {
@@ -28,22 +27,22 @@ public class Playground {
      * @param inputPoint any point
      * @return corresponding within a playground field
      */
-    public Optional<Point> getPlaygroundPoint(Point inputPoint){
-        for (Point point: playground){
-            if (point.equals(inputPoint)){
+    public Optional<Point> getPlaygroundPoint(Point inputPoint) {
+        for (Point point : playground) {
+            if (point.equals(inputPoint)) {
                 return Optional.of(point);
             }
         }
         return Optional.empty();
     }
 
-    public List<Point> getLine(int lineNumber){
+    public List<Point> getLine(int lineNumber) {
         List<Point> line = new LinkedList<>();
-        if (lineNumber < 0 || lineNumber > 11){
+        if (lineNumber < 0 || lineNumber > 11) {
             throw new IllegalArgumentException();
         }
         int offset = (lineNumber - 1) * size;
-        for (int i = offset; i < offset + size; i++){
+        for (int i = offset; i < offset + size; i++) {
             Point point = playground.get(i);
             line.add(point);
         }
@@ -67,4 +66,83 @@ public class Playground {
         }
     }
 
+    public boolean arePointsInField(Point startPoint, Direction direction, int amount) {
+        if (!playground.contains(startPoint)) {
+            return false;
+        }
+        if (amount < 0 || amount > getSize()) {
+            return false;
+        }
+
+        Point currentPoint = startPoint;
+        switch (direction) {
+            case WAAGRECHT -> {
+                for (int i = 0; i < amount-1; i++) {
+                    if (getRightPoint(currentPoint).isPresent()) {
+                        currentPoint = getRightPoint(currentPoint).get();
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            case SENKRECHT -> {
+                for (int i = 0; i < amount-1; i++) {
+                    if (getLowerPoint(currentPoint).isPresent()) {
+                        currentPoint = getLowerPoint(currentPoint).get();
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public List<Point> getListOfValidPoints(Point startPoint, Direction direction, int amount) {
+        if (!playground.contains(startPoint)) {
+            throw new IllegalArgumentException("Invalid startPoint");
+        }
+        if (amount < 0 || amount > getSize()) {
+            throw new IllegalArgumentException("Invalid amount");
+        }
+
+        List<Point> validPoints = new LinkedList<>();
+
+        if (getPlaygroundPoint(startPoint).isPresent()) {
+            validPoints.add(getPlaygroundPoint(startPoint).get());
+        }
+        validPoints.add(startPoint);
+        Point currentPoint = startPoint;
+        switch (direction) {
+            case WAAGRECHT -> {
+                for (int i = 0; i < amount-1; i++) {
+                    if (getRightPoint(currentPoint).isPresent()) {
+                        currentPoint = getRightPoint(currentPoint).get();
+                        validPoints.add(currentPoint);
+                    }
+                }
+            }
+            case SENKRECHT -> {
+                for (int i = 0; i < amount-1; i++) {
+                    if (getLowerPoint(currentPoint).isPresent()) {
+                        currentPoint = getLowerPoint(currentPoint).get();
+                        validPoints.add(currentPoint);
+                    }
+                }
+            }
+        }
+        return validPoints;
+    }
+
+    private Optional<Point> getLowerPoint(Point initialPoint) {
+        int y = initialPoint.getY();
+        y++;
+        return getPlaygroundPoint(new Point(initialPoint.getX(), y));
+    }
+
+    private Optional<Point> getRightPoint(Point initialPoint) {
+        char x = initialPoint.getX();
+        x++;
+        return getPlaygroundPoint(new Point(x, initialPoint.getY()));
+    }
 }

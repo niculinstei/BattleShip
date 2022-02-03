@@ -6,6 +6,7 @@ public class Point {
     private final char x;
     private final int y;
     private ShotStatus shotStatus;
+    private ShipKind shipKind;
 
     public Point(char x, int y) {
         this.x = x;
@@ -48,5 +49,13 @@ public class Point {
 
     public void setFieldStatus(ShotStatus shotStatus) {
         this.shotStatus = shotStatus;
+    }
+
+    public ShipKind getShipKind() {
+        return shipKind;
+    }
+
+    public void setShipKind(ShipKind shipKind) {
+        this.shipKind = shipKind;
     }
 }

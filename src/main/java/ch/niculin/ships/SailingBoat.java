@@ -7,6 +7,7 @@ public class SailingBoat extends MainShip {
     public SailingBoat(Direction dircetion){
         super.setDirection(dircetion);
         super.setSize(2);
+
     }
 
     @Override

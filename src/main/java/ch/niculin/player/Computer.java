@@ -56,23 +56,28 @@ public class Computer extends Player {
         airCraftCarrier.addShipPositionPoint(originalPoint);
         getMainShips().add(airCraftCarrier);
         originalPoint.setFieldStatus(ShotStatus.SHIP);
+        originalPoint.setShipKind(ShipKind.AIRCRAFTCARRIER);
         if (airCraftCarrier.getDirection() == Direction.WAAGRECHT) {
             Point rightPointOfOrgiginalPoint = getRightPoint(originalPoint);
             airCraftCarrier.addShipPositionPoint(rightPointOfOrgiginalPoint);
             rightPointOfOrgiginalPoint.setFieldStatus(ShotStatus.SHIP);
+            rightPointOfOrgiginalPoint.setShipKind(ShipKind.AIRCRAFTCARRIER);
 
             Point rightOfRight = getRightPoint(rightPointOfOrgiginalPoint);
             airCraftCarrier.addShipPositionPoint(rightOfRight);
             rightOfRight.setFieldStatus(ShotStatus.SHIP);
+            rightOfRight.setShipKind(ShipKind.AIRCRAFTCARRIER);
             ships++;
         } else {
             Point lowerPointOfOrgiginalPoint = getLowerPoint(originalPoint);
             airCraftCarrier.addShipPositionPoint(lowerPointOfOrgiginalPoint);
             lowerPointOfOrgiginalPoint.setFieldStatus(ShotStatus.SHIP);
+            lowerPointOfOrgiginalPoint.setShipKind(ShipKind.AIRCRAFTCARRIER);
 
             Point lowerOfLower = getLowerPoint(lowerPointOfOrgiginalPoint);
             airCraftCarrier.addShipPositionPoint(lowerOfLower);
             lowerOfLower.setFieldStatus(ShotStatus.SHIP);
+            lowerOfLower.setShipKind(ShipKind.AIRCRAFTCARRIER);
             ships++;
         }
         return ships;
@@ -93,17 +98,21 @@ public class Computer extends Player {
             sailingBoat.addShipPositionPoint(point1);
             getMainShips().add(sailingBoat);
             point1.setFieldStatus(ShotStatus.SHIP);
+            point1.setShipKind(ShipKind.SAILINGBOAT);
             Point rightPoint = getRightPoint(point1);
             sailingBoat.addShipPositionPoint(rightPoint);
             rightPoint.setFieldStatus(ShotStatus.SHIP);
+            rightPoint.setShipKind(ShipKind.SAILINGBOAT);
             ships++;
         } else {
             sailingBoat.addShipPositionPoint(point1);
             getMainShips().add(sailingBoat);
             point1.setFieldStatus(ShotStatus.SHIP);
+            point1.setShipKind(ShipKind.SAILINGBOAT);
             Point lowerPoint = getLowerPoint(point1);
             sailingBoat.addShipPositionPoint(lowerPoint);
             lowerPoint.setFieldStatus(ShotStatus.SHIP);
+            lowerPoint.setShipKind(ShipKind.SAILINGBOAT);
             ships++;
         }
         return ships;
@@ -122,44 +131,12 @@ public class Computer extends Player {
         rubberBoat.addShipPositionPoint(point);
         getMainShips().add(rubberBoat);
         point.setFieldStatus(ShotStatus.SHIP);
+        point.setShipKind(ShipKind.RUBBERBOAT);
         ships++;
         return ships;
     }
-//Zuerst das grösste schiff
-//die schiffplatzieren in methoden machen damit mehr übersicht
-//das problem isst das nur der erste punkt geprüft wird und somit die schiffe sich überscheiden, darum auch das grösste zuerst,
-
-    private Point getLowerPoint(Point point) {
-        int y = point.getY();
-        y++;
-        Point point1 = new Point(point.getX(), y);
-        Optional<Point> point2 = getPlaygroundPoint(point1);
-        Point pointToReturn;
-        if (point2.isPresent()) {
-            pointToReturn = point2.get();
-        } else {
-            throw new IllegalArgumentException("Invalid inpunt");
-        }
-
-        return pointToReturn;
-    }
 
 
-    private Point getRightPoint(Point point) {
-        char x = point.getX();
-        x++;
-        Point point1 = new Point(x, point.getY());
-        Optional<Point> point2 = getPlaygroundPoint(point1);
-        Point pointToReturn;
-        if (point2.isPresent()) {
-            pointToReturn = point2.get();
-        } else {
-            throw new IllegalArgumentException("Invalid inpunt");
-        }
-
-        return pointToReturn;
-
-    }
 
     private char getRandomChar() {
         Random r = new Random();
@@ -182,40 +159,48 @@ public class Computer extends Player {
 
     private Point getRandomPointsAirCraftcarrier(Direction direction) {
         Point point;
-        Point Point1;
-        Point Point2;
+        Point point1;
+        Point point2;
+
         if (direction == Direction.WAAGRECHT) {
             do {
-                point = new Point(getRandomChar(), getRandomInt());
-                Point1 = getRightPoint(point);
-                Point2 = getRightPoint(Point1);
-            } while (hasAlreadyShip(point) || hasAlreadyShip(Point1) || hasAlreadyShip(Point2));
+                do{
+                        point = new Point(getRandomChar(), getRandomInt());
+                } while (!getPlaygroundAsPlaygroundObject().arePointsInField(point, direction, 3));
+                point1 = getRightPoint(point);
+                point2 = getRightPoint(point1);
+            } while (hasAlreadyShip(point) || hasAlreadyShip(point1) || hasAlreadyShip(point2));
             return point;
         } else {
             do {
-                point = new Point(getRandomChar(), getRandomInt());
-                Point1 = getLowerPoint(point);
-                Point2 = getLowerPoint(Point1);
-            } while (hasAlreadyShip(point) || hasAlreadyShip(Point1) || hasAlreadyShip(Point2));
+                do {
+                    point = new Point(getRandomChar(), getRandomInt());
+                } while (!getPlaygroundAsPlaygroundObject().arePointsInField(point, direction, 3));
+                point1 = getLowerPoint(point);
+                point2 = getLowerPoint(point1);
+            } while (hasAlreadyShip(point) || hasAlreadyShip(point1) || hasAlreadyShip(point2));
             return point;
         }
     }
 
     private Point getRandomPointsSailingBoat(Direction direction) {
         Point point;
-        Point Point1;
+        Point point1;
         if (direction == Direction.WAAGRECHT) {
             do {
-                point = new Point(getRandomChar(), getRandomInt());
-                Point1 = getRightPoint(point);
-
-            } while (hasAlreadyShip(point) || hasAlreadyShip(Point1));
+                do {
+                    point = new Point(getRandomChar(), getRandomInt());
+                } while (!getPlaygroundAsPlaygroundObject().arePointsInField(point, direction, 2));
+                point1 = getRightPoint(point);
+            } while (hasAlreadyShip(point) || hasAlreadyShip(point1));
             return point;
         } else {
             do {
-                point = new Point(getRandomChar(), getRandomInt());
-                Point1 = getLowerPoint(point);
-            } while (hasAlreadyShip(point) || hasAlreadyShip(Point1));
+                do {
+                    point = new Point(getRandomChar(), getRandomInt());
+                } while (!getPlaygroundAsPlaygroundObject().arePointsInField(point, direction, 2));
+                point1 = getLowerPoint(point);
+            } while (hasAlreadyShip(point) || hasAlreadyShip(point1));
             return point;
         }
     }
@@ -229,7 +214,6 @@ public class Computer extends Player {
         } else {
             return Direction.SENKRECHT;
         }
-
     }
 }
 

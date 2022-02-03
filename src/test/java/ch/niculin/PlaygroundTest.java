@@ -1,4 +1,5 @@
 package ch.niculin;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,18 +12,18 @@ class PlaygroundTest {
     Playground playground;
 
     @BeforeEach
-    void init(){
+    void init() {
         playground = new Playground(10);
     }
 
     @Test
-    void testGetSizeAfterPlaygroundCreation(){
-        int size = playground.getSize() ;
+    void testGetSizeAfterPlaygroundCreation() {
+        int size = playground.getSize();
         assertEquals(10, size);
     }
 
     @Test
-    void testTotalSizeOfPlayground(){
+    void testTotalSizeOfPlayground() {
         List<Point> playgroundPoints = playground.getPlayground();
         int totalSize = playgroundPoints.size();
         assertEquals(100, totalSize);
@@ -88,6 +89,8 @@ class PlaygroundTest {
         assertTrue(condition3);
     }
 
+
+
     @Test
     void testInvalidNegativeLineNumber() {
         int lineNumber = 23;
@@ -100,10 +103,66 @@ class PlaygroundTest {
         assertThrows(IllegalArgumentException.class, () -> playground.getLine(lineNumber));
     }
 
+    @Test
+    void testInvalidStartPoint() {
+        Point point = new Point('X', 12);
+        boolean result = playground.arePointsInField(point, Direction.WAAGRECHT, 1);
+        assertFalse(result);
+    }
 
+    @Test
+    void testIsValidOnePointHorizontal() {
+        Point point = new Point('A', 3);
+        boolean result = playground.arePointsInField(point, Direction.WAAGRECHT, 1);
+        assertTrue(result);
+    }
 
+    @Test
+    void testIsValidOnePointVertical() {
+        Point point = new Point('A', 3);
+        boolean result = playground.arePointsInField(point, Direction.SENKRECHT, 1);
+        assertTrue(result);
+    }
 
+    @Test
+    void testIsValidThreePointHorizontal() {
+        Point point = new Point('A', 3);
+        boolean result = playground.arePointsInField(point, Direction.WAAGRECHT, 3);
+        assertTrue(result);
+    }
 
+    @Test
+    void testIsValidThreePointVertical() {
+        Point point = new Point('A', 3);
+        boolean result = playground.arePointsInField(point, Direction.SENKRECHT, 3);
+        assertTrue(result);
+    }
 
+    @Test
+    void testIsInvalidThreePointHorizontal() {
+        Point point = new Point('I', 3);
+        boolean result = playground.arePointsInField(point, Direction.WAAGRECHT, 3);
+        assertFalse(result);
+    }
 
+    @Test
+    void testIsInvalidThreePointVertical() {
+        Point point = new Point('A', 9);
+        boolean result = playground.arePointsInField(point, Direction.SENKRECHT, 3);
+        assertFalse(result);
+    }
+
+    @Test
+    void testNegativeAmount() {
+        Point point = new Point('A', 3);
+        boolean result = playground.arePointsInField(point, Direction.SENKRECHT, -37);
+        assertFalse(result);
+    }
+
+    @Test
+    void testTooLargeAmount() {
+        Point point = new Point('A', 3);
+        boolean result = playground.arePointsInField(point, Direction.SENKRECHT, 11);
+        assertFalse(result);
+    }
 }

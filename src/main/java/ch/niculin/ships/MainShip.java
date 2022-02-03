@@ -10,7 +10,8 @@ import java.util.List;
 public abstract class MainShip {
     private Direction direction;
     private int size;
-    private final List<Point> shipPosition = new LinkedList<>();
+    private List<Point> shipPosition = new LinkedList<>();
+
 
     public int getSize() {
         return size;
@@ -22,6 +23,10 @@ public abstract class MainShip {
         } else {
             shipPosition.add(point);
         }
+    }
+
+    public void addShipPositionPoint(List<Point> points) {
+         shipPosition = points;
     }
 
     public Direction getDirection() {

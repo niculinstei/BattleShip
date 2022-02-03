@@ -9,6 +9,7 @@ public class AirCraftCarrier extends MainShip {
     public AirCraftCarrier(Direction dircetion){
         super.setDirection(dircetion);
         super.setSize(3);
+
     }
 
     @Override

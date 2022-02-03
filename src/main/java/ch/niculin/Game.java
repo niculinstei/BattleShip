@@ -3,10 +3,12 @@ package ch.niculin;
 import ch.niculin.player.Computer;
 import ch.niculin.player.Human;
 import ch.niculin.player.Player;
+import ch.niculin.ships.AirCraftCarrier;
 import ch.niculin.ships.RubberBoat;
+import ch.niculin.ships.SailingBoat;
 
 import static ch.niculin.PlaygroundPrinter.print;
-import static ch.niculin.secondPrinter.secondPrint;
+import static ch.niculin.ScondPrinter.secondPrint;
 import static ch.niculin.GameMode.shipQuantity;
 
 public class Game {
@@ -28,10 +30,10 @@ public class Game {
                 Playground playground1 = new Playground(MAP_SIZE);
                 Human player = new Human("Peter", playground);
                 Computer computer = new Computer(playground1);
-                player.setMainShip(new RubberBoat());
+                setShipHuman(player);
                 computer.generateShips(shipQuantity(MAP_SIZE));
-                secondPrint(player.getPlaygroundAsPlaygroundObject());
-                secondPrint(computer.getPlaygroundAsPlaygroundObject());
+                secondPrint(player.getPlaygroundAsPlaygroundObject(), player.getDestroyedShips());
+                secondPrint(computer.getPlaygroundAsPlaygroundObject(), computer.getDestroyedShips());
                 startGame(player, computer);
                 return getWinner(player, computer);
             }
@@ -69,11 +71,11 @@ public class Game {
             }
             shotControll(currentPlayer, otherPlayer);
             System.out.println(player.getName() + " Playgrounds");
-            print(player.getPlaygroundAsPlaygroundObject(), player.getHittedShipPoints(), player.getDestroyedShips(), player.getFaildShots());
-            secondPrint(player.getPlaygroundAsPlaygroundObject());
+            print(player.getPlaygroundAsPlaygroundObject(), player.getHittedShipPoints(), player.getDestroyedShips(), player.getFailedShots());
+            secondPrint(player.getPlaygroundAsPlaygroundObject(), player.getDestroyedShips());
             System.out.println(player1.getName() + " Playgrounds");
-            print(player1.getPlaygroundAsPlaygroundObject(), player1.getHittedShipPoints(), player1.getDestroyedShips(), player1.getFaildShots());
-            secondPrint(player1.getPlaygroundAsPlaygroundObject());
+            print(player1.getPlaygroundAsPlaygroundObject(), player1.getHittedShipPoints(), player1.getDestroyedShips(), player1.getFailedShots());
+            secondPrint(player1.getPlaygroundAsPlaygroundObject(), player1.getDestroyedShips());
         }
     }
 
@@ -98,7 +100,25 @@ public class Game {
             return player.getName();
         }
     }
-    public static int getMapSize(){
-        return MAP_SIZE;
+   private void setShipHuman(Human player){
+
+        if (MAP_SIZE == 5){
+            player.setMainShip(new RubberBoat());
+            player.setMainShip(new SailingBoat(controll.getUserDirection("Sailingboat(2)")));
+        } else if (MAP_SIZE == 8){
+            player.setMainShip(new RubberBoat());
+            player.setMainShip(new RubberBoat());
+            player.setMainShip(new SailingBoat(controll.getUserDirection("Sailingboat(2)")));
+            player.setMainShip(new AirCraftCarrier(controll.getUserDirection("Aircraftcaririer(3)")));
+        }
+        else if (MAP_SIZE == 10){
+            for (int i = 0; i < 1; i++){
+                player.setMainShip(new RubberBoat());
+                player.setMainShip(new SailingBoat(controll.getUserDirection("Sailingboat(2)")));
+/*
+                player.setMainShip(new AirCraftCarrier(controll.getUserDirection("Aircraftcaririer(3)")));
+*/
+            }
+        }
     }
 }

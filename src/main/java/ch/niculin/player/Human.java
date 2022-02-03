@@ -1,12 +1,9 @@
 package ch.niculin.player;
 
-import ch.niculin.Controll;
-import ch.niculin.ShotStatus;
-import ch.niculin.Playground;
-import ch.niculin.Point;
+import ch.niculin.*;
 import ch.niculin.ships.MainShip;
 
-import java.util.Optional;
+import java.util.List;
 
 public class Human extends Player {
     Controll controll = new Controll();
@@ -16,106 +13,55 @@ public class Human extends Player {
     }
 
     public void setMainShip(MainShip mainShip) {
+        List<Point> validPoints;
         switch (mainShip.getSize()) {
             case 1 -> {
-                Point inputPoint = controll.getPoint(mainShip);
-                Optional<Point> playgroundPoint = getPlaygroundPoint(inputPoint);
-                Point point;
-                if (playgroundPoint.isPresent()) {
-                    point = playgroundPoint.get();
-                } else {
-                    throw new IllegalArgumentException("Invalid inpunt");
-                }
-                if (getPlayground().contains(point) && !hasAlreadyShip(point)) {
-                    point.setFieldStatus(ShotStatus.SHIP);
-                    mainShip.addShipPositionPoint(point);
-                    getMainShips().add(mainShip);
-                } else if (hasAlreadyShip(point)) {
-                    throw new IllegalArgumentException("There is already a ship!");
-                } else {
-                    throw new IllegalArgumentException("Not inside!");
-                }
+                validPoints = getValidStartPoint(mainShip);
+                setShipKind(validPoints, mainShip.getSize());
+                mainShip.addShipPositionPoint(validPoints);
+                getMainShips().add(mainShip);
             }
             case 2 -> {
-                Point point = controll.getPoint(mainShip);
-                switch (mainShip.getDirection()) {
-                    case WAAGRECHT -> {
-                        if (getPlayground().contains(point) && getPlayground().contains(getRightPoint(point)) && !hasAlreadyShip(point) && !hasAlreadyShip(getRightPoint(point))) {
-                            mainShip.addShipPositionPoint(point);
-                            point.setFieldStatus(ShotStatus.SHIP);
-                            mainShip.addShipPositionPoint(getRightPoint(point));
-                            getRightPoint(point).setFieldStatus(ShotStatus.SHIP);
-                            getMainShips().add(mainShip);
-                        } else if (hasAlreadyShip(point) || hasAlreadyShip(getRightPoint(point))) {
-                            throw new IllegalArgumentException("There is already a ship!");
-                        } else {
-                            throw new IllegalArgumentException("Not inside!");
-                        }
-                    }
-                    case SENKRECHT -> {
-                        if (getPlayground().contains(point) && getPlayground().contains(getLowerPoint(point)) && !hasAlreadyShip(point) && !hasAlreadyShip(getLowerPoint(point))) {
-                            mainShip.addShipPositionPoint(point);
-                            point.setFieldStatus(ShotStatus.SHIP);
-                            mainShip.addShipPositionPoint(getLowerPoint(point));
-                            getLowerPoint(point).setFieldStatus(ShotStatus.SHIP);
-                            getMainShips().add(mainShip);
-                        } else if (hasAlreadyShip(point) || hasAlreadyShip(getLowerPoint(point))) {
-                            throw new IllegalArgumentException("There is already a ship!");
-                        } else {
-                            throw new IllegalArgumentException("Not inside!");
-                        }
-                    }
-                }
+                do {
+                    validPoints = getValidStartPoint(mainShip);
+                } while (hasAlreadyShip(validPoints));
+                mainShip.addShipPositionPoint(validPoints);
+                mainShip.addShipPositionPoint(validPoints);
+                setShipKind(validPoints, mainShip.getSize());
+                getMainShips().add(mainShip);
             }
             case 3 -> {
-                Point point = controll.getPoint(mainShip);
-                switch (mainShip.getDirection()) {
-                    case WAAGRECHT -> {
-                        Point rightPoint = getRightPoint(point);
-                        if (getPlayground().contains(point) && getPlayground().contains(rightPoint) && getPlayground().contains(getRightPoint(rightPoint)) && !hasAlreadyShip(point) && !hasAlreadyShip(rightPoint) && !hasAlreadyShip(getRightPoint(rightPoint))) {
-                            mainShip.addShipPositionPoint(point);
-                            point.setFieldStatus(ShotStatus.SHIP);
-                            mainShip.addShipPositionPoint(getRightPoint(rightPoint));
-                            getRightPoint(rightPoint).setFieldStatus(ShotStatus.SHIP);
-                            mainShip.addShipPositionPoint(rightPoint);
-                            rightPoint.setFieldStatus(ShotStatus.SHIP);
-                            getMainShips().add(mainShip);
-                        } else if (hasAlreadyShip(point) || hasAlreadyShip(getRightPoint(point)) || hasAlreadyShip(getRightPoint(rightPoint))) {
-                            throw new IllegalArgumentException("There is already a ship!");
-                        } else {
-                            throw new IllegalArgumentException("Not inside!");
-                        }
-                    }
-                    case SENKRECHT -> {
-                        Point lowerPoint = getLowerPoint(point);
-                        if (getPlayground().contains(point) && getPlayground().contains(lowerPoint) && getPlayground().contains(getLowerPoint(lowerPoint)) && !hasAlreadyShip(point) && !hasAlreadyShip(getLowerPoint(point)) && !hasAlreadyShip(getLowerPoint(lowerPoint))) {
-                            mainShip.addShipPositionPoint(point);
-                            point.setFieldStatus(ShotStatus.SHIP);
-                            mainShip.addShipPositionPoint(lowerPoint);
-                            lowerPoint.setFieldStatus(ShotStatus.SHIP);
-                            mainShip.addShipPositionPoint(getLowerPoint(lowerPoint));
-                            getLowerPoint(lowerPoint).setFieldStatus(ShotStatus.SHIP);
-                            getMainShips().add(mainShip);
-                        } else if (hasAlreadyShip(point) || hasAlreadyShip(lowerPoint) || hasAlreadyShip(getLowerPoint(lowerPoint))) {
-                            throw new IllegalArgumentException("There is already a ship!");
-                        } else {
-                            throw new IllegalArgumentException("Not inside!");
-                        }
-                    }
-                }
+                do {
+                    validPoints = getValidStartPoint(mainShip);
+                } while (hasAlreadyShip(validPoints));
+                mainShip.addShipPositionPoint(validPoints);
+                setShipKind(validPoints, mainShip.getSize());
+                getMainShips().add(mainShip);
             }
         }
     }
 
-    private Point getRightPoint(Point point) {
-        char x = point.getX();
-        x++;
-        return new Point(x, point.getY());
+    private List<Point> getValidStartPoint(MainShip mainShip) {
+        Point point;
+        do {
+            point = controll.getPoint(mainShip);
+        } while (!getPlaygroundAsPlaygroundObject().arePointsInField(point, mainShip.getDirection(), mainShip.getSize()));
+        return getPlaygroundAsPlaygroundObject().getListOfValidPoints(point, mainShip.getDirection(), mainShip.getSize());
     }
 
-    private Point getLowerPoint(Point point) {
-        int y = point.getY();
-        y++;
-        return new Point(point.getX(), y);
+
+    private void setShipKind(List<Point> points, int mainShipSize) {
+
+        for (Point point : points){
+            point.setFieldStatus(ShotStatus.SHIP);
+            if (mainShipSize == 1) {
+                point.setShipKind(ShipKind.RUBBERBOAT);
+            } else if (mainShipSize == 2) {
+                point.setShipKind(ShipKind.SAILINGBOAT);
+            } else if (mainShipSize == 3) {
+                point.setShipKind(ShipKind.AIRCRAFTCARRIER);
+            }
+        }
+        //die Points sind immer um eins verschoben
     }
 }

@@ -1,5 +1,6 @@
 package ch.niculin.player;
 
+import ch.niculin.Direction;
 import ch.niculin.Playground;
 import ch.niculin.Point;
 import ch.niculin.Shot;
@@ -15,7 +16,7 @@ public abstract class Player {
     private final List<MainShip> mainShips;
     private final List<Point> hittedShipPoints;
     private final List<Point> destroyedShips;
-    private final List<Point> faildShots;
+    private final List<Point> failedShots;
 
     public Player(String name, Playground playground) {
         this.playground = playground;
@@ -23,7 +24,7 @@ public abstract class Player {
         mainShips = new LinkedList<>();
         hittedShipPoints = new LinkedList<>();
         destroyedShips = new LinkedList<>();
-        faildShots = new LinkedList<>();
+        failedShots = new LinkedList<>();
     }
 
     public boolean shootShip(Shot shot, Playground playgrounOfOtherPlayer, List<MainShip> mainShipList) {
@@ -42,7 +43,7 @@ public abstract class Player {
                     return true;
                 }
             }
-            faildShots.add(playgroundPoint.get());
+            failedShots.add(playgroundPoint.get());
 
 
             return false;
@@ -65,6 +66,53 @@ public abstract class Player {
             }
         }
         return false;
+    }
+
+    boolean hasAlreadyShip(List<Point> points) {
+        for (Point point : points){
+            if (hasAlreadyShip(point)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Point getLowerPoint(Point point) {
+        int y = point.getY();
+        y++;
+        Point point1 = new Point(point.getX(), y);
+        Optional<Point> point2 = getPlaygroundPoint(point1);
+        Point pointToReturn;
+        if (point2.isPresent()) {
+            pointToReturn = point2.get();
+        } else {
+            throw new IllegalArgumentException("Invalid Input");
+        }
+
+        return pointToReturn;
+    }
+
+
+    public Point getRightPoint(Point point) {
+        char x = point.getX();
+        x++;
+        Point point1 = new Point(x, point.getY());
+        Optional<Point> point2 = getPlaygroundPoint(point1);
+        Point pointToReturn;
+        if (point2.isPresent()) {
+            pointToReturn = point2.get();
+        } else {
+            throw new IllegalArgumentException("Invalid inpunt");
+        }
+        return pointToReturn;
+    }
+
+    public Point getNextPoint (Point point ,Direction direction){
+        if (direction == Direction.WAAGRECHT) {
+            return getRightPoint(point);
+        } else {
+            return getLowerPoint(point);
+        }
     }
 
     public String getName() {
@@ -99,7 +147,7 @@ public abstract class Player {
         return destroyedShips;
     }
 
-    public List<Point> getFaildShots() {
-        return faildShots;
+    public List<Point> getFailedShots() {
+        return failedShots;
     }
 }

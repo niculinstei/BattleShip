@@ -42,4 +42,14 @@ public class Controll extends MainShip {
             return 8;
         } else return 5;
     }
+
+    public Direction getUserDirection(String ship){
+        System.out.println(ship + " Direction? \n1 horizontal\n2 vertical");
+        int input = new Scanner(System.in).nextInt();
+        if (input == 1){
+            return Direction.WAAGRECHT;
+        } else {
+            return Direction.SENKRECHT;
+        }
+    }
 }
