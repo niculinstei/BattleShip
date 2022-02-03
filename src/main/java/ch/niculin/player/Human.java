@@ -48,20 +48,4 @@ public class Human extends Player {
         } while (!getPlaygroundAsPlaygroundObject().arePointsInField(point, mainShip.getDirection(), mainShip.getSize()));
         return getPlaygroundAsPlaygroundObject().getListOfValidPoints(point, mainShip.getDirection(), mainShip.getSize());
     }
-
-
-    private void setShipKind(List<Point> points, int mainShipSize) {
-
-        for (Point point : points){
-            point.setFieldStatus(ShotStatus.SHIP);
-            if (mainShipSize == 1) {
-                point.setShipKind(ShipKind.RUBBERBOAT);
-            } else if (mainShipSize == 2) {
-                point.setShipKind(ShipKind.SAILINGBOAT);
-            } else if (mainShipSize == 3) {
-                point.setShipKind(ShipKind.AIRCRAFTCARRIER);
-            }
-        }
-        //die Points sind immer um eins verschoben
-    }
 }

@@ -17,14 +17,6 @@ public abstract class MainShip {
         return size;
     }
 
-    public void addShipPositionPoint(Point point) {
-        if (shipPosition.size() >= size) {
-            throw new IllegalArgumentException("Ship already placed completly!");
-        } else {
-            shipPosition.add(point);
-        }
-    }
-
     public void addShipPositionPoint(List<Point> points) {
          shipPosition = points;
     }

@@ -9,7 +9,6 @@ import ch.niculin.ships.SailingBoat;
 
 import static ch.niculin.PlaygroundPrinter.print;
 import static ch.niculin.ScondPrinter.secondPrint;
-import static ch.niculin.GameMode.shipQuantity;
 
 public class Game {
     Controll controll = new Controll();
@@ -31,7 +30,7 @@ public class Game {
                 Human player = new Human("Peter", playground);
                 Computer computer = new Computer(playground1);
                 setShipHuman(player);
-                computer.generateShips(shipQuantity(MAP_SIZE));
+                setShipComuter(computer);
                 secondPrint(player.getPlaygroundAsPlaygroundObject(), player.getDestroyedShips());
                 secondPrint(computer.getPlaygroundAsPlaygroundObject(), computer.getDestroyedShips());
                 startGame(player, computer);
@@ -100,25 +99,46 @@ public class Game {
             return player.getName();
         }
     }
-   private void setShipHuman(Human player){
 
-        if (MAP_SIZE == 5){
+    private void setShipHuman(Human player) {
+
+        if (MAP_SIZE == 5) {
             player.setMainShip(new RubberBoat());
             player.setMainShip(new SailingBoat(controll.getUserDirection("Sailingboat(2)")));
-        } else if (MAP_SIZE == 8){
+        } else if (MAP_SIZE == 8) {
             player.setMainShip(new RubberBoat());
             player.setMainShip(new RubberBoat());
             player.setMainShip(new SailingBoat(controll.getUserDirection("Sailingboat(2)")));
             player.setMainShip(new AirCraftCarrier(controll.getUserDirection("Aircraftcaririer(3)")));
-        }
-        else if (MAP_SIZE == 10){
-            for (int i = 0; i < 1; i++){
+        } else if (MAP_SIZE == 10) {
+            for (int i = 0; i < 1; i++) {
                 player.setMainShip(new RubberBoat());
                 player.setMainShip(new SailingBoat(controll.getUserDirection("Sailingboat(2)")));
 /*
                 player.setMainShip(new AirCraftCarrier(controll.getUserDirection("Aircraftcaririer(3)")));
 */
             }
+        }
+    }
+
+    private void setShipComuter(Computer computer) {
+
+        if (MAP_SIZE == 5) {
+            computer.setMainShip(new RubberBoat());
+            computer.setMainShip(new SailingBoat(computer.getRandomDirection()));
+        } else if (MAP_SIZE == 8) {
+            computer.setMainShip(new RubberBoat());
+            computer.setMainShip(new RubberBoat());
+            computer.setMainShip(new SailingBoat(computer.getRandomDirection()));
+            computer.setMainShip(new AirCraftCarrier(computer.getRandomDirection()));
+        } else if (MAP_SIZE == 10) {
+            for (int i = 0; i < 2; i++) {
+                computer.setMainShip(new RubberBoat());
+                computer.setMainShip(new SailingBoat(computer.getRandomDirection()));
+                computer.setMainShip(new AirCraftCarrier(computer.getRandomDirection()));
+            }
+
+
         }
     }
 }

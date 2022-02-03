@@ -1,9 +1,6 @@
 package ch.niculin.player;
 
-import ch.niculin.Direction;
-import ch.niculin.Playground;
-import ch.niculin.Point;
-import ch.niculin.Shot;
+import ch.niculin.*;
 import ch.niculin.ships.MainShip;
 
 import java.util.LinkedList;
@@ -107,11 +104,20 @@ public abstract class Player {
         return pointToReturn;
     }
 
-    public Point getNextPoint (Point point ,Direction direction){
-        if (direction == Direction.WAAGRECHT) {
-            return getRightPoint(point);
-        } else {
-            return getLowerPoint(point);
+
+
+
+    public void setShipKind(List<Point> points, int mainShipSize) {
+
+        for (Point point : points){
+            point.setFieldStatus(ShotStatus.SHIP);
+            if (mainShipSize == 1) {
+                point.setShipKind(ShipKind.RUBBERBOAT);
+            } else if (mainShipSize == 2) {
+                point.setShipKind(ShipKind.SAILINGBOAT);
+            } else if (mainShipSize == 3) {
+                point.setShipKind(ShipKind.AIRCRAFTCARRIER);
+            }
         }
     }
 
