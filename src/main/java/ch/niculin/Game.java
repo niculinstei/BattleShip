@@ -6,7 +6,6 @@ import ch.niculin.player.Player;
 import ch.niculin.ships.AirCraftCarrier;
 import ch.niculin.ships.RubberBoat;
 import ch.niculin.ships.SailingBoat;
-
 import static ch.niculin.PlaygroundPrinter.print;
 import static ch.niculin.ScondPrinter.secondPrint;
 
@@ -69,10 +68,9 @@ public class Game {
                 otherPlayer = player;
             }
             shotControll(currentPlayer, otherPlayer);
-            if (currentPlayer instanceof Human) {
+            if (currentPlayer instanceof Computer) {
                 System.out.println(player.getName() + " Playgrounds");
                 print(player.getPlaygroundAsPlaygroundObject(), player.getHittedShipPoints(), player.getDestroyedShips(), player.getFailedShots());
-                /*secondPrint(player.getPlaygroundAsPlaygroundObject(), player.getDestroyedShips());*/
                 System.out.println(player1.getName() + " Playgrounds");
                 print(player1.getPlaygroundAsPlaygroundObject(), player1.getHittedShipPoints(), player1.getDestroyedShips(), player1.getFailedShots());
                 secondPrint(player1.getPlaygroundAsPlaygroundObject(), player1.getDestroyedShips());

@@ -34,14 +34,14 @@ public class ScondPrinter {
     }
 
     private static void printSecondField(Point point, List<Point> destroyedShips) {
-        if (point.getShotStatus() == ShotStatus.SHIP && point.getShipKind() == ShipKind.RUBBERBOAT) {
+        if (destroyedShips.contains(point)) {
+            System.out.print("|‡_");
+        } else if (point.getShotStatus() == ShotStatus.SHIP && point.getShipKind() == ShipKind.RUBBERBOAT) {
             System.out.print("|¤_");
         } else if (point.getShotStatus() == ShotStatus.SHIP && point.getShipKind() == ShipKind.SAILINGBOAT) {
             System.out.print("|¥_");
         } else if (point.getShotStatus() == ShotStatus.SHIP && point.getShipKind() == ShipKind.AIRCRAFTCARRIER) {
             System.out.print("|Δ_");
-        } else if (destroyedShips.contains(point)) {
-            System.out.print("|‡_");
         } else if (point.getShotStatus() == ShotStatus.SHOT && !destroyedShips.contains(point)) {
             System.out.print("|†_");
         } else {
