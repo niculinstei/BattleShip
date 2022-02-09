@@ -2,8 +2,6 @@ package ch.niculin.ships;
 
 import ch.niculin.Direction;
 
-import java.util.LinkedList;
-
 public class AirCraftCarrier extends MainShip {
 
     public AirCraftCarrier(Direction dircetion){

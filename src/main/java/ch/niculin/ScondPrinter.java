@@ -42,7 +42,7 @@ public class ScondPrinter {
             System.out.print("|Δ_");
         } else if (destroyedShips.contains(point)) {
             System.out.print("|‡_");
-        } else if (point.getShotStatus() == ShotStatus.SHOT) {
+        } else if (point.getShotStatus() == ShotStatus.SHOT && !destroyedShips.contains(point)) {
             System.out.print("|†_");
         } else {
             System.out.print("|__");

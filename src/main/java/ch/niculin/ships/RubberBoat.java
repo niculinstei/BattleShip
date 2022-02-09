@@ -6,7 +6,7 @@ public class RubberBoat extends MainShip {
 
     public RubberBoat(){
         super.setSize(1);
-        super.setDirection(Direction.SENKRECHT);
+        super.setDirection(Direction.VERTICAL);
 
     }
 

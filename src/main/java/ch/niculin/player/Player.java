@@ -24,8 +24,8 @@ public abstract class Player {
         failedShots = new LinkedList<>();
     }
 
-    public boolean shootShip(Shot shot, Playground playgrounOfOtherPlayer, List<MainShip> mainShipList) {
-        Optional<Point> playgroundPoint = playgrounOfOtherPlayer.getPlaygroundPoint(shot.getPoint());
+    public boolean shootShip(Shot shot, Playground playgroundOfOtherPlayer, List<MainShip> mainShipList) {
+        Optional<Point> playgroundPoint = playgroundOfOtherPlayer.getPlaygroundPoint(shot.getPoint());
 
         if (playgroundPoint.isEmpty()) {
             return false;
@@ -41,8 +41,6 @@ public abstract class Player {
                 }
             }
             failedShots.add(playgroundPoint.get());
-
-
             return false;
         }
     }
@@ -74,39 +72,6 @@ public abstract class Player {
         return false;
     }
 
-    public Point getLowerPoint(Point point) {
-        int y = point.getY();
-        y++;
-        Point point1 = new Point(point.getX(), y);
-        Optional<Point> point2 = getPlaygroundPoint(point1);
-        Point pointToReturn;
-        if (point2.isPresent()) {
-            pointToReturn = point2.get();
-        } else {
-            throw new IllegalArgumentException("Invalid Input");
-        }
-
-        return pointToReturn;
-    }
-
-
-    public Point getRightPoint(Point point) {
-        char x = point.getX();
-        x++;
-        Point point1 = new Point(x, point.getY());
-        Optional<Point> point2 = getPlaygroundPoint(point1);
-        Point pointToReturn;
-        if (point2.isPresent()) {
-            pointToReturn = point2.get();
-        } else {
-            throw new IllegalArgumentException("Invalid inpunt");
-        }
-        return pointToReturn;
-    }
-
-
-
-
     public void setShipKind(List<Point> points, int mainShipSize) {
 
         for (Point point : points){
@@ -125,16 +90,8 @@ public abstract class Player {
         return name;
     }
 
-    public List<Point> getPlayground() {
-        return playground.getPlayground();
-    }
-
     public Playground getPlaygroundAsPlaygroundObject() {
         return playground;
-    }
-
-    public Optional<Point> getPlaygroundPoint(Point inputPoint) {
-        return playground.getPlaygroundPoint(inputPoint);
     }
 
     public List<MainShip> getMainShips() {
@@ -152,7 +109,6 @@ public abstract class Player {
     public List<Point> getDestroyedShips() {
         return destroyedShips;
     }
-
     public List<Point> getFailedShots() {
         return failedShots;
     }

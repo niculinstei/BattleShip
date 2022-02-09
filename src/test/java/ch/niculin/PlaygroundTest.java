@@ -106,63 +106,63 @@ class PlaygroundTest {
     @Test
     void testInvalidStartPoint() {
         Point point = new Point('X', 12);
-        boolean result = playground.arePointsInField(point, Direction.WAAGRECHT, 1);
+        boolean result = playground.arePointsInField(point, Direction.HORIZONTAL, 1);
         assertFalse(result);
     }
 
     @Test
     void testIsValidOnePointHorizontal() {
         Point point = new Point('A', 3);
-        boolean result = playground.arePointsInField(point, Direction.WAAGRECHT, 1);
+        boolean result = playground.arePointsInField(point, Direction.HORIZONTAL, 1);
         assertTrue(result);
     }
 
     @Test
     void testIsValidOnePointVertical() {
         Point point = new Point('A', 3);
-        boolean result = playground.arePointsInField(point, Direction.SENKRECHT, 1);
+        boolean result = playground.arePointsInField(point, Direction.VERTICAL, 1);
         assertTrue(result);
     }
 
     @Test
     void testIsValidThreePointHorizontal() {
         Point point = new Point('A', 3);
-        boolean result = playground.arePointsInField(point, Direction.WAAGRECHT, 3);
+        boolean result = playground.arePointsInField(point, Direction.HORIZONTAL, 3);
         assertTrue(result);
     }
 
     @Test
     void testIsValidThreePointVertical() {
         Point point = new Point('A', 3);
-        boolean result = playground.arePointsInField(point, Direction.SENKRECHT, 3);
+        boolean result = playground.arePointsInField(point, Direction.VERTICAL, 3);
         assertTrue(result);
     }
 
     @Test
     void testIsInvalidThreePointHorizontal() {
         Point point = new Point('I', 3);
-        boolean result = playground.arePointsInField(point, Direction.WAAGRECHT, 3);
+        boolean result = playground.arePointsInField(point, Direction.HORIZONTAL, 3);
         assertFalse(result);
     }
 
     @Test
     void testIsInvalidThreePointVertical() {
         Point point = new Point('A', 9);
-        boolean result = playground.arePointsInField(point, Direction.SENKRECHT, 3);
+        boolean result = playground.arePointsInField(point, Direction.VERTICAL, 3);
         assertFalse(result);
     }
 
     @Test
     void testNegativeAmount() {
         Point point = new Point('A', 3);
-        boolean result = playground.arePointsInField(point, Direction.SENKRECHT, -37);
+        boolean result = playground.arePointsInField(point, Direction.VERTICAL, -37);
         assertFalse(result);
     }
 
     @Test
     void testTooLargeAmount() {
         Point point = new Point('A', 3);
-        boolean result = playground.arePointsInField(point, Direction.SENKRECHT, 11);
+        boolean result = playground.arePointsInField(point, Direction.VERTICAL, 11);
         assertFalse(result);
     }
 }

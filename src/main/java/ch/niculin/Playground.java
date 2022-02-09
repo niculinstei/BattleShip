@@ -76,7 +76,7 @@ public class Playground {
 
         Point currentPoint = startPoint;
         switch (direction) {
-            case WAAGRECHT -> {
+            case HORIZONTAL -> {
                 for (int i = 0; i < amount-1; i++) {
                     if (getRightPoint(currentPoint).isPresent()) {
                         currentPoint = getRightPoint(currentPoint).get();
@@ -85,7 +85,7 @@ public class Playground {
                     }
                 }
             }
-            case SENKRECHT -> {
+            case VERTICAL -> {
                 for (int i = 0; i < amount-1; i++) {
                     if (getLowerPoint(currentPoint).isPresent()) {
                         currentPoint = getLowerPoint(currentPoint).get();
@@ -111,26 +111,26 @@ public class Playground {
         if (getPlaygroundPoint(startPoint).isPresent()) {
             validPoints.add(getPlaygroundPoint(startPoint).get());
         }
-        validPoints.add(startPoint);
-        Point currentPoint = startPoint;
-        switch (direction) {
-            case WAAGRECHT -> {
-                for (int i = 0; i < amount-1; i++) {
-                    if (getRightPoint(currentPoint).isPresent()) {
-                        currentPoint = getRightPoint(currentPoint).get();
-                        validPoints.add(currentPoint);
+
+            Point currentPoint = startPoint;
+            switch (direction) {
+                case HORIZONTAL -> {
+                    for (int i = 0; i < amount-1; i++) {
+                        if (getRightPoint(currentPoint).isPresent()) {
+                            currentPoint = getRightPoint(currentPoint).get();
+                            validPoints.add(currentPoint);
+                        }
+                    }
+                }
+                case VERTICAL -> {
+                    for (int i = 0; i < amount-1; i++) {
+                        if (getLowerPoint(currentPoint).isPresent()) {
+                            currentPoint = getLowerPoint(currentPoint).get();
+                            validPoints.add(currentPoint);
+                        }
                     }
                 }
             }
-            case SENKRECHT -> {
-                for (int i = 0; i < amount-1; i++) {
-                    if (getLowerPoint(currentPoint).isPresent()) {
-                        currentPoint = getLowerPoint(currentPoint).get();
-                        validPoints.add(currentPoint);
-                    }
-                }
-            }
-        }
         return validPoints;
     }
 

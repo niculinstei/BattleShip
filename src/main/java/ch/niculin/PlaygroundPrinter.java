@@ -1,7 +1,5 @@
 package ch.niculin;
 
-import ch.niculin.ships.MainShip;
-
 import java.util.List;
 
 public class PlaygroundPrinter {

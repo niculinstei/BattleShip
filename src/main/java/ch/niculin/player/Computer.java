@@ -50,9 +50,9 @@ public class Computer extends Player {
         int max = 2;
         int randomNumber = ThreadLocalRandom.current().nextInt(min, max + 1);
         if (randomNumber == 1) {
-            return Direction.WAAGRECHT;
+            return Direction.HORIZONTAL;
         } else {
-            return Direction.SENKRECHT;
+            return Direction.VERTICAL;
         }
     }
 

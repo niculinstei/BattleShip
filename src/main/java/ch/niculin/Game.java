@@ -25,10 +25,10 @@ public class Game {
 
         switch (mode) {
             case 1 -> {
-                Playground playground = new Playground(MAP_SIZE);
-                Playground playground1 = new Playground(MAP_SIZE);
-                Human player = new Human("Peter", playground);
-                Computer computer = new Computer(playground1);
+                Playground humanPlayground = new Playground(MAP_SIZE);
+                Playground computerPlayground = new Playground(MAP_SIZE);
+                Human player = new Human("You", humanPlayground);
+                Computer computer = new Computer(computerPlayground);
                 setShipHuman(player);
                 setShipComuter(computer);
                 secondPrint(player.getPlaygroundAsPlaygroundObject(), player.getDestroyedShips());
@@ -69,12 +69,14 @@ public class Game {
                 otherPlayer = player;
             }
             shotControll(currentPlayer, otherPlayer);
-            System.out.println(player.getName() + " Playgrounds");
-            print(player.getPlaygroundAsPlaygroundObject(), player.getHittedShipPoints(), player.getDestroyedShips(), player.getFailedShots());
-            secondPrint(player.getPlaygroundAsPlaygroundObject(), player.getDestroyedShips());
-            System.out.println(player1.getName() + " Playgrounds");
-            print(player1.getPlaygroundAsPlaygroundObject(), player1.getHittedShipPoints(), player1.getDestroyedShips(), player1.getFailedShots());
-            secondPrint(player1.getPlaygroundAsPlaygroundObject(), player1.getDestroyedShips());
+            if (currentPlayer instanceof Human) {
+                System.out.println(player.getName() + " Playgrounds");
+                print(player.getPlaygroundAsPlaygroundObject(), player.getHittedShipPoints(), player.getDestroyedShips(), player.getFailedShots());
+                /*secondPrint(player.getPlaygroundAsPlaygroundObject(), player.getDestroyedShips());*/
+                System.out.println(player1.getName() + " Playgrounds");
+                print(player1.getPlaygroundAsPlaygroundObject(), player1.getHittedShipPoints(), player1.getDestroyedShips(), player1.getFailedShots());
+                secondPrint(player1.getPlaygroundAsPlaygroundObject(), player1.getDestroyedShips());
+            }
         }
     }
 
@@ -111,12 +113,10 @@ public class Game {
             player.setMainShip(new SailingBoat(controll.getUserDirection("Sailingboat(2)")));
             player.setMainShip(new AirCraftCarrier(controll.getUserDirection("Aircraftcaririer(3)")));
         } else if (MAP_SIZE == 10) {
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 2; i++) {
                 player.setMainShip(new RubberBoat());
                 player.setMainShip(new SailingBoat(controll.getUserDirection("Sailingboat(2)")));
-/*
                 player.setMainShip(new AirCraftCarrier(controll.getUserDirection("Aircraftcaririer(3)")));
-*/
             }
         }
     }
@@ -137,8 +137,6 @@ public class Game {
                 computer.setMainShip(new SailingBoat(computer.getRandomDirection()));
                 computer.setMainShip(new AirCraftCarrier(computer.getRandomDirection()));
             }
-
-
         }
     }
 }

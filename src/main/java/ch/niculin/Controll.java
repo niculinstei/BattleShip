@@ -47,9 +47,9 @@ public class Controll extends MainShip {
         System.out.println(ship + " Direction? \n1 horizontal\n2 vertical");
         int input = new Scanner(System.in).nextInt();
         if (input == 1){
-            return Direction.WAAGRECHT;
+            return Direction.HORIZONTAL;
         } else {
-            return Direction.SENKRECHT;
+            return Direction.VERTICAL;
         }
     }
 }
